@@ -1,4 +1,5 @@
 <?php
+
 $url = $_SERVER['REQUEST_URI'];
 if (strpos($url, ".php")){
     header("Location: 404");
@@ -15,6 +16,11 @@ class Router {
         $this->set_route("", "HomeView");
         $this->set_route("index", "HomeView");
         $this->set_route("home", "HomeView");
+
+        $this->set_route("produto", "ProductView", array(
+            "novo" => "ProductNewView",
+            "alterar" => "ProductEditView",
+        ));
     }
 
     public function route(){

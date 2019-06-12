@@ -1,5 +1,7 @@
 <?php 
-    include_once "controllers/Controller.php";
+    require_once "controllers/Controller.php";
+    require_once "utils/Router.php";
+
     $assets = Controller::base_url("assets/css");
     $pathCSS = "$assets/style.css";
 ?>
@@ -17,9 +19,6 @@
     <?php include_once "header.php" ?>
     <div id="main-content">
         <?php 
-
-            include_once "Router.php";
-
             $router = new Router;
             $router->route();
         ?>
