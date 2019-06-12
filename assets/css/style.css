@@ -1,3 +1,23 @@
+#main-content {
+    padding: 5px 50px 10px 50px;
+}
+
 .border-b {
     border-bottom: 1px solid black;
+}
+
+.form-field {
+    display: flex;
+    padding-bottom: 8px;
+}
+
+.form-field > label {
+    width: 150px;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.form-field > input,
+.form-field > textarea {
+    width: 500px;
 }
