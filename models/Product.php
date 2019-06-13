@@ -15,14 +15,10 @@ class Product implements IModel {
     const DATE = "date";
     const DATE_UPDATE = "date_update";
 
-    private $id;
-    private $name; 
-    private $description;
-    private $barcode; 
-    private $price; 
-    private $codStatus;
-    private $date; 
-    private $dateUpdate; 
+    public $id, $codStatus;
+    public $name, $description, $barcode; 
+    public $price;
+    public $date, $dateUpdate; 
 
     function __construct() {
         $this->id = -1;
@@ -35,8 +31,8 @@ class Product implements IModel {
                 || ValuesUtil::is_null_or_empty($this->price);
     }
 
-    public function as_values(): array {
-        return [
+    public function as_json(): string {
+        $values = [
             self::ID => $this->id,
             self::NAME => $this->name,
             self::PRICE => $this->price,
@@ -46,10 +42,6 @@ class Product implements IModel {
             self::DATE => $this->date,
             self::DATE_UPDATE => $this->dateUpdate
         ];
-    }
-
-    public function as_json(): string {
-        $values = $this->as_values();
         return json_encode($values);
     }
 
