@@ -1,4 +1,5 @@
 <?php 
+require_once "configs.php";
 
 class DBConnection {
 
@@ -7,8 +8,8 @@ class DBConnection {
     function __construct() {
         $this->host = DB_HOST;
         $this->dbName = DB_NAME;
-        $this->username = DB_USERNAME;
-        $this->$password = DB_PASSWORD;
+        $this->username = DB_USER;
+        $this->password = DB_PASSWORD;
     }
 
     public function insert(string $query, array $params): int {
