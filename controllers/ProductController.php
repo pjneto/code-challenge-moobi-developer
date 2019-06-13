@@ -1,11 +1,15 @@
 <?php 
 require_once "controllers/Controller.php";
 require_once "models/Product.php";
+require_once "persistence/ProductPersistence.php";
 
 class ProductController extends Controller {
 
+    private $persistence;
+
     function __construct() {
         parent::__construct("btn-save");
+        $this->persistence = new ProductPersistence;
     }
 
     public function post(string $input): int {
@@ -18,12 +22,18 @@ class ProductController extends Controller {
 
     private function save(): int {
 
+        $values = $_POST;
+        $values['date'] = ValuesUtil::format_date();
+        $values['date_update'] = ValuesUtil::format_date();
+        $values['cod_status'] = PRO_ACTIVE;
+
         $product = new Product;
-        $product->from_values($_POST);
+        $product->from_values($values);
 
         if ($product->invalid_values()) {
             return ERR_PRODUCT_SAVE;
         }
-        return PRODUCT_SAVE;
+        $id = $this->persistence->insert($product);
+        return $id > 0 ? $id : ERR_PRODUCT_SAVE;
     }
 }
