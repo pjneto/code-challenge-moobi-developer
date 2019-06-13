@@ -3,7 +3,6 @@ require_once "controllers/ProductController.php";
 
 $prodController = new ProductController;
 $result = $prodController->post($prodController->input_name());
-var_dump($result);
 ?>
 
 <title>New Product</title>
