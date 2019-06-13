@@ -2,11 +2,13 @@
 
 class DBConnection {
 
-    private $host, $dbName;
+    private $host, $dbName, $username, $password;
 
     function __construct() {
-        $this->host = "localhost";
-        $this->dbName = "bd_toy_shop";
+        $this->host = DB_HOST;
+        $this->dbName = DB_NAME;
+        $this->username = DB_USERNAME;
+        $this->$password = DB_PASSWORD;
     }
 
     public function insert(string $query, array $params): int {
@@ -33,8 +35,9 @@ class DBConnection {
             $options = array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'
             );
+            $strConnection = "mysql:host=$this->host;dbname=$this->dbName";
 
-            $connection = new PDO("mysql:host=$this->host;dbname=$this->dbName", "root", "", $options);
+            $connection = new PDO($strConnection, $this->username, $this->password, $options);
             $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $connection;
