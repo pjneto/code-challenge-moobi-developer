@@ -21,6 +21,11 @@ class Router {
             "novo" => "ProductNewView",
             "detalhes" => "ProductDetailView",
         ));
+
+        $this->set_route("pedido", "OrderView", array(
+            "novo" => "OrderNewView",
+            "detalhes" => "OrderDetailView",
+        ));
     }
 
     public function route(){

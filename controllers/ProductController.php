@@ -8,7 +8,8 @@ class ProductController extends Controller {
     private $persistence;
 
     function __construct() {
-        parent::__construct("btn-save", "btn-edit", "btn-details", "btn-inactivate", "btn-back", "btn-new");
+        parent::__construct("btn-save", "btn-edit", "btn-details", "btn-inactivate", 
+                "btn-back", "btn-new", "btn-orders");
         $this->persistence = new ProductPersistence;
     }
 
@@ -21,6 +22,7 @@ class ProductController extends Controller {
             case "btn-inactivate": return $this->inactivate($input);
             case "btn-new": return $this->new();
             case "btn-back": return $this->back();
+            case "btn-orders": return $this->orders();
         }
         return OK;
     }
@@ -94,6 +96,10 @@ class ProductController extends Controller {
 
     private function back(): int {
         return $this->go_to(Controller::base_url("produto"));
+    }
+
+    private function orders(): int {
+        return $this->go_to(Controller::base_url("pedido"));
     }
 
     private function go_to(string $url): int {
