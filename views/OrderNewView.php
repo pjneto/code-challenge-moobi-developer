@@ -2,6 +2,7 @@
     
 require_once "controllers/OrderController.php";
 $ordController = new OrderController;
+$result = $ordController->post($ordController->input_name());
 $products = $ordController->products();
 ?>
 <title>New Order</title>
@@ -30,25 +31,27 @@ $products = $ordController->products();
 </style>
 
 <h2>New Order</h2>
-<?php 
-    $n = 5;
-    for ($i = 0; $i < sizeof($products); $i += $n):
-        echo "<div class='products'>";
-        $block = array_slice($products, $i, $n);
-        foreach ($block as $product):
-?>
-            <div class="product-item">
-                <div>
-                    <h4><?= $product->name ?></h4>
-                    <p style="text-align: justify"><?= $product->description ?></p>
+<form method="post">
+    <?php 
+        $n = 5;
+        for ($i = 0; $i < sizeof($products); $i += $n):
+            echo "<div class='products'>";
+            $block = array_slice($products, $i, $n);
+            foreach ($block as $product):
+    ?>
+                <div class="product-item">
+                    <div>
+                        <h4><?= $product->name ?></h4>
+                        <p style="text-align: justify"><?= $product->description ?></p>
+                    </div>
+                    <div>
+                        <p><?= ValuesUtil::format_money($product->price) ?></p>
+                        <button name="btn-add-cart" value="<?= $product->id ?>">Add to cart</button>
+                    </div>
                 </div>
-                <div>
-                    <p><?= ValuesUtil::format_money($product->price) ?></p>
-                    <button name="btn-add-cart">Add to cart</button>
-                </div>
-            </div>
-<?php 
-    endforeach; 
-    echo "</div>"
-?>
-<?php endfor;?>
+    <?php 
+        endforeach; 
+        echo "</div>"
+    ?>
+    <?php endfor;?>
+</form>

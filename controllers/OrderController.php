@@ -9,20 +9,40 @@ class OrderController extends Controller {
     private $persistence, $productPersistence;
 
     function __construct() {
-        parent::__construct("btn-details");
+        parent::__construct("btn-details", "btn-add-cart");
+        
         $this->persistence = new OrderPersistence;
         $this->productPersistence = new ProductPersistence;
+        
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
     }
 
     public function post(string $input): int {
 
         switch($input) {
             case "btn-details": return $this->details($input);
+            case "btn-add-cart": return $this->add_cart($input);
         }
         return OK;
     }
 
     public function products(): array {
         return $this->productPersistence->select_all_active();
+    }
+
+    private function add_cart(string $input): int {
+        $id = intval($_POST[$input]);
+        $cart = $_SESSION['cart'];
+        if (!isset($cart[$id])) {
+            $product = $this->productPersistence->select_by_id($id);
+            $cart[$id] = [
+                "product" => $product,
+                "quantity" => 1,
+            ];
+            $_SESSION['cart'] = $cart;
+        };
+        return 0;
     }
 }
