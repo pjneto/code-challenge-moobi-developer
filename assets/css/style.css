@@ -12,6 +12,11 @@ table, th, td {
     padding-bottom: 2px;
 }
 
+div.flex {
+    display: flex;
+    width: 100%;
+}
+
 .t-align-l {
     text-align: left;
 }

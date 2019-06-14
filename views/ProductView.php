@@ -20,7 +20,7 @@ $table = $prodController->table_data();
 </style>
 
 <form method="POST">
-    <div style="display: flex; width: 100%">
+    <div class="flex">
         <div style="width: 80%">
             <h2>Product List</h2>
         </div>
