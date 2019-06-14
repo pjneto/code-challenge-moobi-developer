@@ -66,7 +66,7 @@ $products = $ordController->products();
                 <button name="btn-search">Search Product</button>
             </div>
             <div class="w-20">
-                <button name="btn-finish">Finish Order</button>
+                <button name="btn-confirm">Confirm Order</button>
             </div>
         </div>
     </div>

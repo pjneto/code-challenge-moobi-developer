@@ -23,6 +23,7 @@ class Router {
         ));
 
         $this->set_route("pedido", "OrderView", array(
+            "finalizar" => "OrderFinishView",
             "novo" => "OrderNewView",
             "detalhes" => "OrderDetailView",
         ));
