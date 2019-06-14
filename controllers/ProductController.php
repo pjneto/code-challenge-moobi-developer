@@ -27,9 +27,10 @@ class ProductController extends Controller {
         $values->products = $this->persistence->select_all();
         $values->titles = [
             [ "width" => 5, "text" => "Code" ],
-            [ "width" => 55, "text" => Product::NAME ],
-            [ "width" => 10, "text" => Product::PRICE ],
-            [ "width" => 20, "text" => Product::BARCODE ],
+            [ "width" => 40, "text" => "Name" ],
+            [ "width" => 10, "text" => "Price" ],
+            [ "width" => 15, "text" => "Barcode" ],
+            [ "width" => 10, "text" => "Status" ],
             [ "width" => 10, "text" => "Inactivate" ],
             [ "width" => 10, "text" => "Details" ],
         ];
@@ -56,11 +57,9 @@ class ProductController extends Controller {
     private function inactivate(string $input): int {
         $id = intval($_POST[$input]);
         $product = $this->persistence->select_by_id($id);
-        $product->codStatus = PRO_INACTIVE;
+        $product->codStatus = $product->codStatus === PRO_INACTIVE ? PRO_ACTIVE : PRO_INACTIVE;
         $product->dateUpdate = ValuesUtil::format_date();
-        $result = $this->persistence->update($product);
-
-        return 0;
+        return $this->persistence->update($product);
     }
 
     private function details(string $input): int {

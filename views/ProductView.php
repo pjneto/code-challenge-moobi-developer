@@ -26,14 +26,17 @@ $table = $prodController->table_data();
             <?php 
                 foreach ($table->products as $product):
                     $price = ValuesUtil::format_money($product->price);
+                    $status = $product->codStatus === PRO_INACTIVE ? "Inactive" : "Active";
+                    $btnStatus = $product->codStatus === PRO_INACTIVE ? "Activate" : "Inactivate";
                     echo "
                         <tr>
                             <td>$product->id</td>
                             <td>$product->name</td>
                             <td>$price</td>
                             <td>$product->barcode</td>
+                            <td>$status</td>
                             <td class='t-align-c'>
-                                <button name='btn-inactivate' value='$product->id'>Inactivate</button>
+                                <button name='btn-inactivate' value='$product->id'>$btnStatus</button>
                             </td>
                             <td class='t-align-c'>
                                 <button name='btn-details' value='$product->id'>Details</button>

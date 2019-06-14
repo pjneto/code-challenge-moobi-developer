@@ -52,7 +52,7 @@ class Product implements IModel {
         $this->barcode = ValuesUtil::value_or_default($values, self::BARCODE, null);
         $this->price = floatval(ValuesUtil::value_or_default($values, self::PRICE, -1));
         $this->description = ValuesUtil::value_or_default($values, self::DESCRIPTION, null);
-        $this->codStatus = ValuesUtil::value_or_default($values, self::COD_STATUS, -1);
+        $this->codStatus = intval(ValuesUtil::value_or_default($values, self::COD_STATUS, -1));
         $this->date = ValuesUtil::value_or_default($values, self::DATE, null);
         $this->dateUpdate = ValuesUtil::value_or_default($values, self::DATE_UPDATE, null);
     }

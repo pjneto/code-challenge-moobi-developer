@@ -23,19 +23,17 @@ class ProductPersistence {
     public function select_by_id(int $id): Product {
         $args = [ 
             ":" . Product::ID => $id,
-            ":" . Product::COD_STATUS => PRO_ACTIVE,
         ];
-        $where = "WHERE P.id = :id "
-                . "AND P.cod_status = :cod_status ";
+        $where = "WHERE P.id = :id ";
         $products = $this->execut_select($where, $args);
         return sizeof($products) > 0 ? array_pop($products) : new Product;
     }
 
     public function select_all(): array {
         $args = [ 
-            ":" . Product::COD_STATUS => PRO_ACTIVE 
+            ":" . Product::ID => 0 
         ];
-        $where = "WHERE P.cod_status = :cod_status ";
+        $where = "WHERE P.id > :id ";
         return $this->execut_select($where, $args);
     }
 
