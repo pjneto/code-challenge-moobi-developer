@@ -19,7 +19,7 @@ class Router {
 
         $this->set_route("produto", "ProductView", array(
             "novo" => "ProductNewView",
-            "alterar" => "ProductEditView",
+            "detalhes" => "ProductDetailView",
         ));
     }
 

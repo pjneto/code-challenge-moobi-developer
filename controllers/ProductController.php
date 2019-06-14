@@ -8,7 +8,7 @@ class ProductController extends Controller {
     private $persistence;
 
     function __construct() {
-        parent::__construct("btn-save", "btn-details", "btn-inactivate");
+        parent::__construct("btn-save", "btn-edit", "btn-details", "btn-inactivate");
         $this->persistence = new ProductPersistence;
     }
 
@@ -16,6 +16,7 @@ class ProductController extends Controller {
 
         switch($input) {
             case "btn-save": return $this->save();
+            case "btn-edit": return $this->edit($input);
             case "btn-details": return $this->details($input);
             case "btn-inactivate": return $this->inactivate($input);
         }
@@ -37,6 +38,10 @@ class ProductController extends Controller {
         return $values;
     }
 
+    public function get_product(int $id): Product {
+        return $this->persistence->select_by_id($id);
+    }
+
     private function save(): int {
 
         $values = $_POST;
@@ -54,15 +59,32 @@ class ProductController extends Controller {
         return $id > 0 ? $id : ERR_PRODUCT_SAVE;
     }
 
+    private function edit(string $input): int {
+        $id = $_POST[$input];
+        $product = $this->get_product($id);
+
+        $values = $_POST;
+        $values['id'] = $product->id;
+        $values['date'] = $product->date;
+        $values['date_update'] = ValuesUtil::format_date();
+        $values['cod_status'] = $product->codStatus;
+        $product->from_values($values);
+        return $this->persistence->update($product);
+    }
+
     private function inactivate(string $input): int {
         $id = intval($_POST[$input]);
-        $product = $this->persistence->select_by_id($id);
+        $product = $this->get_product($id);
         $product->codStatus = $product->codStatus === PRO_INACTIVE ? PRO_ACTIVE : PRO_INACTIVE;
         $product->dateUpdate = ValuesUtil::format_date();
         return $this->persistence->update($product);
     }
 
     private function details(string $input): int {
+        $id = intval($_POST[$input]);
+        $url = $id > 0 ? "produto/detalhes/$id" : "produto";
+        $url = Controller::base_url($url);
+        header("Location: $url");
         return 0;
     }
 }
