@@ -12,6 +12,12 @@ $btnStatus = $product->codStatus === PRO_INACTIVE ? "Activate" : "Inactivate";
 
 <title>Product Details</title>
 
+<style>
+    button {
+        margin-right: 10px;
+    }
+</style>
+
 <h2>Product Details</h2>
 <?php if (is_null($product) || $product->id <= 0): ?>
     <h3>Invalid Product</h3>
@@ -37,6 +43,7 @@ $btnStatus = $product->codStatus === PRO_INACTIVE ? "Activate" : "Inactivate";
             <label></label>
             <button type="submit" name="btn-inactivate" value="<?= $product->id ?>"><?= $btnStatus ?></button> 
             <button type="submit" name="btn-edit" value="<?= $product->id ?>" <?= $disabled ?>>Edit</button>
+            <button type="submit" name="btn-back">Back</button> 
         </div>
     </form>
 

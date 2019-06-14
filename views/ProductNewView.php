@@ -7,6 +7,12 @@ $result = $prodController->post($prodController->input_name());
 
 <title>New Product</title>
 
+<style>
+    button {
+        margin-right: 10px;
+    }
+</style>
+
 <h2>New Product</h2>
 <form method="post">
     <div class="form-field">
@@ -28,5 +34,6 @@ $result = $prodController->post($prodController->input_name());
     <div class="form-field">
         <label></label>
         <button type="submit" id="btn-save" name="btn-save">Save</button>
+        <button type="submit" name="btn-back">Back</button> 
     </div>
 </form>

@@ -8,7 +8,7 @@ class ProductController extends Controller {
     private $persistence;
 
     function __construct() {
-        parent::__construct("btn-save", "btn-edit", "btn-details", "btn-inactivate");
+        parent::__construct("btn-save", "btn-edit", "btn-details", "btn-inactivate", "btn-back", "btn-new");
         $this->persistence = new ProductPersistence;
     }
 
@@ -19,6 +19,8 @@ class ProductController extends Controller {
             case "btn-edit": return $this->edit($input);
             case "btn-details": return $this->details($input);
             case "btn-inactivate": return $this->inactivate($input);
+            case "btn-new": return $this->new();
+            case "btn-back": return $this->back();
         }
         return OK;
     }
@@ -83,7 +85,18 @@ class ProductController extends Controller {
     private function details(string $input): int {
         $id = intval($_POST[$input]);
         $url = $id > 0 ? "produto/detalhes/$id" : "produto";
-        $url = Controller::base_url($url);
+        return $this->go_to(Controller::base_url($url));
+    }
+
+    private function new(): int {
+        return $this->go_to(Controller::base_url("produto/novo"));
+    }
+
+    private function back(): int {
+        return $this->go_to(Controller::base_url("produto"));
+    }
+
+    private function go_to(string $url): int {
         header("Location: $url");
         return 0;
     }

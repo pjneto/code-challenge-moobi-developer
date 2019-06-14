@@ -8,8 +8,15 @@ $table = $prodController->table_data();
 ?>
 <title>Products</title>
 
-<h2>Product List</h2>
 <form method="POST">
+    <div style="display: flex; width: 100%">
+        <div style="width: 90%">
+            <h2>Product List</h2>
+        </div>
+        <div style="width: 10%; margin: 20px 0;" class="t-align-r">
+            <button name="btn-new">New</button>
+        </div>
+    </div>
     <table style="width: 100%">
         <thead>
             <tr>
