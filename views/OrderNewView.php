@@ -28,10 +28,48 @@ $products = $ordController->products();
     .product-item h4 {
         margin: 10px 0 4px 0;
     }
-</style>
+    div.actions {
+        display: flex;
+        width: 50%;
+    }
 
-<h2>New Order</h2>
+    div.actions div.w-20, 
+    div.actions div.w-60 {
+        margin: 20px 0;  
+        padding-left: 5px;
+    }
+
+    div.actions div.w-20 {
+        width: 20%;
+    }
+
+    div.actions div.w-60 {
+        width: 60%;
+    }
+
+    div.actions button, 
+    div.actions input {
+        width: 100%;
+    }
+
+</style>
 <form method="post">
+    <div class="flex">
+        <div style="width: 50%">
+            <h2>New Order</h2>
+        </div>
+        <div class="actions">
+            <div class="w-60">
+                <input type="text" name="searchable" placeholder="Anything to search">
+            </div>
+            <div class="w-20">
+                <button name="btn-search">Search Product</button>
+            </div>
+            <div class="w-20">
+                <button name="btn-finish">Finish Order</button>
+            </div>
+        </div>
+    </div>
     <?php 
         $n = 5;
         for ($i = 0; $i < sizeof($products); $i += $n):

@@ -9,7 +9,7 @@ class OrderController extends Controller {
     private $persistence, $productPersistence;
 
     function __construct() {
-        parent::__construct("btn-details", "btn-add-cart");
+        parent::__construct("btn-details", "btn-add-cart", "btn-search", "btn-finish");
         
         $this->persistence = new OrderPersistence;
         $this->productPersistence = new ProductPersistence;
@@ -24,11 +24,16 @@ class OrderController extends Controller {
         switch($input) {
             case "btn-details": return $this->details($input);
             case "btn-add-cart": return $this->add_cart($input);
+            case "btn-finish": return $this->finish();
         }
         return OK;
     }
 
     public function products(): array {
+        $searchable = isset($_POST['searchable']) ? $_POST['searchable'] : "";
+        if (isset($_POST['btn-search']) && strlen($searchable) > 0) {
+            return $this->productPersistence->select_by_search($searchable);
+        }
         return $this->productPersistence->select_all_active();
     }
 
@@ -43,6 +48,10 @@ class OrderController extends Controller {
             ];
             $_SESSION['cart'] = $cart;
         };
+        return 0;
+    }
+
+    private function finish(): int {
         return 0;
     }
 }

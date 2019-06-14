@@ -29,6 +29,22 @@ class ProductPersistence {
         return sizeof($products) > 0 ? array_pop($products) : new Product;
     }
 
+    public function select_by_search(string $search): array {
+        $search = "%$search%";
+        $args = [
+            ":f" . Product::COD_STATUS => PRO_ACTIVE,
+            ":f" . Product::NAME => $search,
+            ":f" . Product::DESCRIPTION => $search,
+            ":f" . Product::PRICE => $search,
+        ];
+        $where = "WHERE P.cod_status = :fcod_status AND ("
+                . "P.name like :fname "
+                . "OR P.description like :fdescription "
+                . "OR P.price like :fprice"
+                . ") ";
+        return $this->execut_select($where, $args);
+    }
+
     public function select_all(): array {
         $args = [ 
             ":" . Product::ID => 0 
