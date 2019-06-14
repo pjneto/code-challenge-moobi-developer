@@ -31,6 +31,17 @@ class DBConnection {
         return -1;
     }
 
+    public function update(string $query, array $params): int {
+        $connection = $this->open_connection();
+        $prepare = $connection->prepare($query);
+        if ($prepare) {
+            $prepare->execute($params);
+            $rows = $prepare->rowCount();
+            return $rows;
+        }
+        return -1;
+    }
+
     public function select(string $query, array $params = null): ?array{
         $connection = $this->open_connection();
 

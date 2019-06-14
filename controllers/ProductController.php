@@ -8,7 +8,7 @@ class ProductController extends Controller {
     private $persistence;
 
     function __construct() {
-        parent::__construct("btn-save");
+        parent::__construct("btn-save", "btn-details", "btn-inactivate");
         $this->persistence = new ProductPersistence;
     }
 
@@ -16,6 +16,8 @@ class ProductController extends Controller {
 
         switch($input) {
             case "btn-save": return $this->save();
+            case "btn-details": return $this->details($input);
+            case "btn-inactivate": return $this->inactivate($input);
         }
         return OK;
     }
@@ -49,5 +51,19 @@ class ProductController extends Controller {
         }
         $id = $this->persistence->insert($product);
         return $id > 0 ? $id : ERR_PRODUCT_SAVE;
+    }
+
+    private function inactivate(string $input): int {
+        $id = intval($_POST[$input]);
+        $product = $this->persistence->select_by_id($id);
+        $product->codStatus = PRO_INACTIVE;
+        $product->dateUpdate = ValuesUtil::format_date();
+        $result = $this->persistence->update($product);
+
+        return 0;
+    }
+
+    private function details(string $input): int {
+        return 0;
     }
 }
