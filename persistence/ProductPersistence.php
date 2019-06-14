@@ -37,6 +37,14 @@ class ProductPersistence {
         return $this->execut_select($where, $args);
     }
 
+    public function select_all_active(): array {
+        $args = [ 
+            ":" . Product::COD_STATUS => PRO_ACTIVE
+        ];
+        $where = "WHERE P.cod_status = :cod_status ";
+        return $this->execut_select($where, $args);
+    }
+
     public function insert(Product $product): int {
         $values = [
             "f" . Product::NAME => $product->name,
