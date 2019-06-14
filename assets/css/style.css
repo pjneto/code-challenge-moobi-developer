@@ -1,6 +1,28 @@
 #main-content {
     padding: 5px 50px 10px 50px;
 }
+th {
+    text-align: left;
+}
+
+table, th, td {
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    padding-top: 8px;
+    padding-bottom: 2px;
+}
+
+.t-align-l {
+    text-align: left;
+}
+
+.t-align-c {
+    text-align: center;
+}
+
+.t-align-r {
+    text-align: right;
+}
 
 .border-b {
     border-bottom: 1px solid black;

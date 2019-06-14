@@ -31,6 +31,19 @@ class DBConnection {
         return -1;
     }
 
+    public function select(string $query, array $params = null): ?array{
+        $connection = $this->open_connection();
+
+        $prepare = $connection->prepare($query);
+        if ($prepare) {
+            is_null($params) ? $prepare->execute() : $prepare->execute($params);
+
+            $rows = $prepare->fetchAll();
+            return $rows;
+        }
+        return null;
+    }
+
     private function open_connection(): PDO {
         try {
             $options = array(

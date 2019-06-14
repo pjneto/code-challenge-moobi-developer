@@ -20,6 +20,20 @@ class ProductController extends Controller {
         return OK;
     }
 
+    public function table_data(): stdclass {
+        $values = new stdClass;
+        $values->products = $this->persistence->select_all();
+        $values->titles = [
+            [ "width" => 5, "text" => "Code" ],
+            [ "width" => 55, "text" => Product::NAME ],
+            [ "width" => 10, "text" => Product::PRICE ],
+            [ "width" => 20, "text" => Product::BARCODE ],
+            [ "width" => 10, "text" => "Inactivate" ],
+            [ "width" => 10, "text" => "Details" ],
+        ];
+        return $values;
+    }
+
     private function save(): int {
 
         $values = $_POST;

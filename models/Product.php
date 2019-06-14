@@ -46,7 +46,8 @@ class Product implements IModel {
     }
 
     public function from_values(array $values) {
-
+        
+        $this->id = intval(ValuesUtil::value_or_default($values, self::ID, -1));
         $this->name = ValuesUtil::value_or_default($values, self::NAME, null);
         $this->barcode = ValuesUtil::value_or_default($values, self::BARCODE, null);
         $this->price = floatval(ValuesUtil::value_or_default($values, self::PRICE, -1));

@@ -14,5 +14,5 @@ define("ERR_PRODUCT_EDIT", -3);
 define("ERR_PRODUCT_DELETE", -4);
 
 /** COD STATUS OF PRODUCT */
+define("PRO_INACTIVE", 0);
 define("PRO_ACTIVE", 1);
-define("PRO_INACTIVE", 2);

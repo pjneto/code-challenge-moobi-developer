@@ -5,6 +5,32 @@ require_once "models/Product.php";
 
 class ProductPersistence {
 
+    const REPLACE_WHERE = "WHERE P.id > 0 ";
+    const REPLACE_ORDER_BY = "ORDER BY P.id ";
+
+    const SELECT = "SELECT P.id, P.name, P.price, P.description, P.barcode, P.cod_status, P.date, P.date_update "
+                . "FROM tb_product P "
+                . self::REPLACE_WHERE
+                . self::REPLACE_ORDER_BY;
+
+    public function select_all(): array {
+        $args = [ 
+            ":" . Product::COD_STATUS => PRO_ACTIVE 
+        ];
+        $where = "WHERE P.cod_status = :cod_status ";
+        $query = str_replace(self::REPLACE_WHERE, $where, self::SELECT);
+        
+        $db = new DBConnection;
+        $values = $db->select($query, $args);
+
+        $products = array_map(function($v) {
+            $product = new Product;
+            $product->from_values($v);
+            return $product;
+        }, $values);
+        return $products;
+    }
+
     public function insert(Product $product): int {
         $values = [
             "f" . Product::NAME => $product->name,

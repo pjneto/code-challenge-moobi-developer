@@ -10,6 +10,10 @@ class ValuesUtil {
         return is_null($value) || strlen($value) === 0;
     }
 
+    public static function format_money(float $value, bool $signal = true) {
+        return (boolval($signal) ? "R$ " : "") . number_format($value, 2, ",", ".");
+    }
+
     public static function format_date(string $value = null): string {
         if (is_null($value)) {
             $value = time();
