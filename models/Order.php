@@ -20,6 +20,23 @@ class Order {
     function __construct() {
         $this->id = -1;
     }
+
+    public function db_values(bool $withId = false): array {
+        $values = [
+            ":f" . Order::VALUE => $order->value,
+            ":f" . Order::DISCOUNT => $order->discount,
+            ":f" . Order::NUM_PARCEL => $order->numParcel,
+            ":f" . Order::VALUE_PARCEL => $order->valueParcel,
+            ":f" . Order::COD_STATUS => $order->codStatus,
+            ":f" . Order::COD_PAYMENT => $order->codPayment,
+            ":f" . Order::DATE => $order->date,
+            ":f" . Order::DATE_UPDATE => $order->dateUpdate,
+        ];
+        if ($withId) {
+            $values[":f" . self::ID] = $this->id;
+        }
+        return $values;
+    }
     
     public function from_values(array $values) {
         $this->id = intval(ValuesUtil::value_or_default($values, self::ID, -1));

@@ -31,18 +31,20 @@ class Product implements IModel {
                 || ValuesUtil::is_null_or_empty($this->price);
     }
 
-    public function as_json(): string {
+    public function db_values(bool $widthId = false): array {
         $values = [
-            self::ID => $this->id,
-            self::NAME => $this->name,
-            self::PRICE => $this->price,
-            self::DESCRIPTION => $this->description,
-            self::BARCODE => $this->barcode,
-            self::COD_STATUS => $this->codStatus,
-            self::DATE => $this->date,
-            self::DATE_UPDATE => $this->dateUpdate
+            "f" . Product::NAME => $product->name,
+            "f" . Product::DESCRIPTION => $product->description,
+            "f" . Product::BARCODE => $product->barcode,
+            "f" . Product::PRICE => $product->price,
+            "f" . Product::COD_STATUS => $product->codStatus,
+            "f" . Product::DATE => $product->date,
+            "f" . Product::DATE_UPDATE => $product->dateUpdate,
         ];
-        return json_encode($values);
+        if ($widthId) {
+            $values[":f" . self::ID ] = $this->id;
+        }
+        return $values;
     }
 
     public function from_values(array $values) {

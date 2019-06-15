@@ -62,32 +62,19 @@ class ProductPersistence {
     }
 
     public function insert(Product $product): int {
-        $values = [
-            "f" . Product::NAME => $product->name,
-            "f" . Product::DESCRIPTION => $product->description,
-            "f" . Product::BARCODE => $product->barcode,
-            "f" . Product::PRICE => $product->price,
-            "f" . Product::COD_STATUS => $product->codStatus,
-            "f" . Product::DATE => $product->date,
-            "f" . Product::DATE_UPDATE => $product->dateUpdate,
-        ];
         $query = self::INSERT;
+        $values = $product->db_values();
         $db = new DBConnection;
         return $db->insert($query, $values);
     }
 
     public function update(Product $product): int {
-        $values = [
-            "f" . Product::ID => $product->id,
-            "f" . Product::NAME => $product->name,
-            "f" . Product::DESCRIPTION => $product->description,
-            "f" . Product::BARCODE => $product->barcode,
-            "f" . Product::PRICE => $product->price,
-            "f" . Product::COD_STATUS => $product->codStatus,
-            "f" . Product::DATE_UPDATE => $product->dateUpdate,
-        ];
         $where = "WHERE id = :fid ";
         $query = str_replace(self::REPLACE_WHERE, $where, self::UPDATE);
+        $values = $product->db_values(true);
+        if (isset($values[Product::DATE])) {
+            unset($values[Product::DATE]);
+        }
         
         $db = new DBConnection;
         return $db->update($query, $values);

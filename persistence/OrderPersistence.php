@@ -15,17 +15,8 @@ class OrderPersistence {
             . self::REPLACE_VALUES;
 
     public function insert(Order $order): int {
-        $values = [
-            ":f" . Order::VALUE => $order->value,
-            ":f" . Order::DISCOUNT => $order->discount,
-            ":f" . Order::NUM_PARCEL => $order->numParcel,
-            ":f" . Order::VALUE_PARCEL => $order->valueParcel,
-            ":f" . Order::COD_STATUS => $order->codStatus,
-            ":f" . Order::COD_PAYMENT => $order->codPayment,
-            ":f" . Order::DATE => $order->date,
-            ":f" . Order::DATE_UPDATE => $order->dateUpdate,
-        ];
         $query = self::INSERT;
+        $values = $order->db_values();
         $db = new DBConnection;
         return $db->insert($query, $values);   
     }
