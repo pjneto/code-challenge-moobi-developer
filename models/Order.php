@@ -23,14 +23,14 @@ class Order {
 
     public function db_values(bool $withId = false): array {
         $values = [
-            ":f" . Order::VALUE => $order->value,
-            ":f" . Order::DISCOUNT => $order->discount,
-            ":f" . Order::NUM_PARCEL => $order->numParcel,
-            ":f" . Order::VALUE_PARCEL => $order->valueParcel,
-            ":f" . Order::COD_STATUS => $order->codStatus,
-            ":f" . Order::COD_PAYMENT => $order->codPayment,
-            ":f" . Order::DATE => $order->date,
-            ":f" . Order::DATE_UPDATE => $order->dateUpdate,
+            ":f" . Order::VALUE => $this->value,
+            ":f" . Order::DISCOUNT => $this->discount,
+            ":f" . Order::NUM_PARCEL => $this->numParcel,
+            ":f" . Order::VALUE_PARCEL => $this->valueParcel,
+            ":f" . Order::COD_STATUS => $this->codStatus,
+            ":f" . Order::COD_PAYMENT => $this->codPayment,
+            ":f" . Order::DATE => $this->date,
+            ":f" . Order::DATE_UPDATE => $this->dateUpdate,
         ];
         if ($withId) {
             $values[":f" . self::ID] = $this->id;
