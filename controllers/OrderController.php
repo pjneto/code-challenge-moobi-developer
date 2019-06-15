@@ -2,6 +2,7 @@
 require_once "controllers/Controller.php";
 require_once "models/Product.php";
 require_once "models/Order.php";
+require_once "models/OrderItem.php";
 require_once "persistence/OrderPersistence.php";
 require_once "persistence/ProductPersistence.php";
 
@@ -120,8 +121,28 @@ class OrderController extends Controller {
         $order->dateUpdate = ValuesUtil::format_date();
         
         $order->id = $this->persistence->insert($order);
-
+        $this->insert_itens($order->id, $cart);
+        
         return $order->id;
+    }
+
+    private function insert_itens(int $idOrder, array $cart): int {
+        $itens = [];
+        $currentDate = ValuesUtil::format_date();
+        foreach ($cart as $c) {
+            $item = $c['item'];
+
+            $order = new OrderItem;
+            $order->from_values([
+                OrderItem::ID_PRODUCT => $item->id,
+                OrderItem::ID_ORDER => $idOrder,
+                OrderItem::QUANTITY => $c['quantity'],
+                OrderItem::DATE => $currentDate,
+                OrderItem::DATE_UPDATE => $currentDate,
+            ]);
+            $itens[] = $order;
+        }
+        return $this->persistence->insert_itens($itens);
     }
 
     private function back(): int {
