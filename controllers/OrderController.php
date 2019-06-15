@@ -1,6 +1,7 @@
 <?php
 require_once "controllers/Controller.php";
 require_once "models/Product.php";
+require_once "models/Order.php";
 require_once "persistence/OrderPersistence.php";
 require_once "persistence/ProductPersistence.php";
 
@@ -9,7 +10,8 @@ class OrderController extends Controller {
     private $persistence, $productPersistence;
 
     function __construct() {
-        parent::__construct("btn-remove", "btn-quantity", "btn-add-cart", "btn-search", "btn-confirm", "btn-back");
+        parent::__construct("btn-remove", "btn-quantity", "btn-add-cart", "btn-search", 
+                "btn-confirm", "btn-back", "btn-finish");
         
         $this->persistence = new OrderPersistence;
         $this->productPersistence = new ProductPersistence;
@@ -86,6 +88,40 @@ class OrderController extends Controller {
             $_SESSION['cart'] = $cart;
         };
         return 0;
+    }
+
+    private function finish() {
+        $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+        if (sizeof($cart) === 0) {
+            return -1;
+        }
+        $payment = intval($_POST['payment']);
+        $parcels = $payment === PAY_CREDIT_CARD && isset($_POST['parcels']) && intval($_POST['parcels']) > 0 
+                ? intval($_POST['parcels']) 
+                : 1;
+        $orderValue = array_reduce($cart, function($acc, $c){
+            $product = $c['item'];
+            $quantity = intval($c['quantity']);
+            $acc += $product->price * $quantity;
+            return $acc;
+        }, 0);
+
+        $discount = $payment === PAY_BANK_SLIP ? 0.05 
+                : ($payment === PAY_CASH ? 0.1 : 0);
+                
+        $order = new Order;
+        $order->value = $orderValue;
+        $order->discount = $orderValue * $discount;
+        $order->numParcel = $parcels;
+        $order->valueParcel = $orderValue / $parcels;
+        $order->codPayment = $payment;
+        $order->codStatus = ORD_OPEN;
+        $order->date = ValuesUtil::format_date();
+        $order->dateUpdate = ValuesUtil::format_date();
+        
+        $order->id = $this->persistence->insert($order);
+
+        return $order->id;
     }
 
     private function back(): int {

@@ -7,7 +7,7 @@ $result = $ordController->post($ordController->input_name());
 $itens = $ordController->order_itens();
 $disabledBtnFinish = sizeof($itens->products) === 0 ? "disabled" : "";
 ?>
-<title>Products</title>
+<title>Confirm Order</title>
 <style>
 
     div.actions {
@@ -22,11 +22,8 @@ $disabledBtnFinish = sizeof($itens->products) === 0 ? "disabled" : "";
 
 <form method="POST">
     <div class="flex">
-        <div style="width: 80%">
+        <div style="width: 90%">
             <h2>Order itens</h2>
-        </div>
-        <div class="actions">
-            <button style="width: 100%" name="btn-finish" <?= $disabledBtnFinish ?>>Finish</button>
         </div>
         <div class="actions">
             <button style="width: 100%" name="btn-back">Back</button>
@@ -71,4 +68,32 @@ $disabledBtnFinish = sizeof($itens->products) === 0 ? "disabled" : "";
             ?>
         </tbody>
     </table>
+    <div class="flex" style="justify-content: flex-end; padding-top: 20px;">
+        <div>
+            <label for="payment">Payment: </label>
+        </div>
+        <div style="width: 10%; padding-right: 10px;">
+            <select style="width: 100%; height: 100%" id="payment" name="payment" onchange="changePayment(this)">
+                <option value="0">Cash</option>
+                <option value="1">Credt Card</option>
+                <option value="2">Bank Slip</option>
+            </select>
+        </div>
+        <div>
+            <label for="payment">Parcels: </label>
+        </div>
+        <div style="width: 10%; padding-right: 10px;">
+            <input type="number" style="width: 100%;" id="parcels" name="parcels" disabled>
+        </div>
+        <div style="width: 10%">
+            <button style="width: 100%" name="btn-finish" <?= $disabledBtnFinish ?>>Finish</button>
+        </div>
+    </div>
 </form>
+
+<script>
+    function changePayment(e) {
+        var parcels = document.getElementById("parcels");
+        parcels.disabled = parseInt(e.value) === 2;
+    }
+</script>
