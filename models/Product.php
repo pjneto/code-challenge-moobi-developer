@@ -1,9 +1,8 @@
 <?php
 
-require_once "interfaces/IModel.php";
 require_once "utils/ValuesUtil.php";
 
-class Product implements IModel {
+class Product {
 
     const TABLE = "tb_product";
     const ID = "id";
