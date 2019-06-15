@@ -45,7 +45,7 @@ class OrderController extends Controller {
 
     public function order_itens(): stdClass {
         $itens = new stdClass;
-        $itens->products = $_SESSION['cart'];
+        $itens->products = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
         $itens->titles = [
             [ "width" => 5, "text" => "Code" ],
             [ "width" => 40, "text" => "Name" ],

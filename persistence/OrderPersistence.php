@@ -31,8 +31,8 @@ class OrderPersistence {
         $values = [];
         foreach ($itens as $item) {
             $args .= "(?, ?, ?, ?, ?), ";
-            $values[] = $item->idProduct;
             $values[] = $item->idOrder;
+            $values[] = $item->idProduct;
             $values[] = $item->quantity;
             $values[] = $item->date;
             $values[] = $item->dateUpdate;
