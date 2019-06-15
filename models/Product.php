@@ -65,7 +65,7 @@ class Product {
         $this->name = ValuesUtil::value_or_default($values, self::NAME, null);
         $this->barcode = ValuesUtil::value_or_default($values, self::BARCODE, null);
         $this->price = floatval(ValuesUtil::value_or_default($values, self::PRICE, -1));
-        $this->price = intval(ValuesUtil::value_or_default($values, self::PRICE, 0));
+        $this->stock = intval(ValuesUtil::value_or_default($values, self::STOCK, 0));
         $this->description = ValuesUtil::value_or_default($values, self::DESCRIPTION, null);
         $this->codStatus = intval(ValuesUtil::value_or_default($values, self::COD_STATUS, -1));
         $this->date = ValuesUtil::value_or_default($values, self::DATE, null);

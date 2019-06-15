@@ -28,6 +28,10 @@ $result = $prodController->post($prodController->input_name());
         <input type="number" id="price" name="price" placeholder="Unit price">
     </div>
     <div class="form-field">
+        <label for="stock">Stock</label>
+        <input type="number" id="stock" name="stock" placeholder="Stock of product">
+    </div>
+    <div class="form-field">
         <label for="description">Description</label>
         <textarea name="description" id="description" cols="30" rows="4" placeholder="Some product's description"></textarea>
     </div>

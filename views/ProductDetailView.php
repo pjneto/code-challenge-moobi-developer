@@ -36,6 +36,10 @@ $btnStatus = $product->codStatus === PRO_INACTIVE ? "Activate" : "Inactivate";
             <input type="number" id="price" name="price" placeholder="Unit price" value="<?= $product->price ?>" <?= $disabled ?> >
         </div>
         <div class="form-field">
+            <label for="stock">Price</label>
+            <input type="number" id="stock" name="stock" placeholder="Stock of product" value="<?= $product->stock ?>" <?= $disabled ?> >
+        </div>
+        <div class="form-field">
             <label for="description">Description</label>
             <textarea name="description" id="description" cols="30" rows="4" placeholder="Some product's description" <?= $disabled ?>><?= $product->description?></textarea>
         </div>
