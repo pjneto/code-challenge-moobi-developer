@@ -128,6 +128,7 @@ class OrderController extends Controller {
 
     private function insert_itens(int $idOrder, array $cart): int {
         $itens = [];
+        $products = [];
         $currentDate = ValuesUtil::format_date();
         foreach ($cart as $c) {
             $item = $c['item'];
@@ -140,9 +141,21 @@ class OrderController extends Controller {
                 OrderItem::DATE => $currentDate,
                 OrderItem::DATE_UPDATE => $currentDate,
             ]);
+            $product = $item;
+            $product->dec_quantity($item->quantity);
+            $products[] = $product;
             $itens[] = $order;
         }
-        return $this->persistence->insert_itens($itens);
+        $result = $this->persistence->insert_itens($itens);
+        $this->update_stock($products);
+        unset($_SESSION['cart']);
+        return $result;
+    }
+
+    private function update_stock(array $products) {
+        foreach ($products as $product) {
+            $this->productPersistence->update($product);
+        }
     }
 
     private function back(): int {

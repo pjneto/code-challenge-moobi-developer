@@ -8,15 +8,16 @@ class ProductPersistence {
     const REPLACE_WHERE = "WHERE false ";
     const REPLACE_ORDER_BY = "ORDER BY P.id ";
 
-    const SELECT = "SELECT P.id, P.name, P.price, P.description, P.barcode, P.cod_status, P.date, P.date_update "
+    const SELECT = "SELECT P.id, P.name, P.price, P.description, P.barcode, " 
+                . "P.cod_status, P.date, P.date_update, P.stock "
                 . "FROM tb_product P "
                 . self::REPLACE_WHERE
                 . self::REPLACE_ORDER_BY;
 
-    const INSERT = "INSERT INTO tb_product (name, price, description, barcode, cod_status, date, date_update) "
-                . "VALUES (:fname, :fprice, :fdescription, :fbarcode, :fcod_status, :fdate, :fdate_update); ";
+    const INSERT = "INSERT INTO tb_product (name, price, stock, description, barcode, cod_status, date, date_update) "
+                . "VALUES (:fname, :fprice, :fstock, :fdescription, :fbarcode, :fcod_status, :fdate, :fdate_update); ";
 
-    const UPDATE = "UPDATE tb_product set name = :fname, price = :fprice, description = :fdescription, " 
+    const UPDATE = "UPDATE tb_product set name = :fname, price = :fprice, stock = :fstock, description = :fdescription, " 
                 . "barcode = :fbarcode, cod_status = :fcod_status, date_update = :fdate_update "
                 . self::REPLACE_WHERE;
 
@@ -72,13 +73,13 @@ class ProductPersistence {
         $where = "WHERE id = :fid ";
         $query = str_replace(self::REPLACE_WHERE, $where, self::UPDATE);
         $values = $product->db_values(true);
-        if (isset($values[Product::DATE])) {
-            unset($values[Product::DATE]);
+        if (isset($values[":f" . Product::DATE])) {
+            unset($values[":f" . Product::DATE]);
         }
         
         $db = new DBConnection;
         return $db->update($query, $values);
-    }    
+    }
 
     private function execut_select(string $where = null, array $args = []): array {
         $query = is_null($where) || sizeof($args) === 0 
