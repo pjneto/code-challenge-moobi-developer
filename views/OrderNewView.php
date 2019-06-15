@@ -76,6 +76,7 @@ $products = $ordController->products();
             echo "<div class='products'>";
             $block = array_slice($products, $i, $n);
             foreach ($block as $product):
+                $disableBtnCart = $product->stock === 0 ? "disabled" : "";
     ?>
                 <div class="product-item">
                     <div>
@@ -83,8 +84,8 @@ $products = $ordController->products();
                         <p style="text-align: justify"><?= $product->description ?></p>
                     </div>
                     <div>
-                        <p><?= ValuesUtil::format_money($product->price) ?></p>
-                        <button name="btn-add-cart" value="<?= $product->id ?>">Add to cart</button>
+                        <p>Price: <?= ValuesUtil::format_money($product->price) ?>. Stock: <?= $product->stock ?> </p>
+                        <button name="btn-add-cart" value="<?= $product->id ?>" <?= $disableBtnCart ?>>Add to cart</button>
                     </div>
                 </div>
     <?php 

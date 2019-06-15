@@ -142,7 +142,7 @@ class OrderController extends Controller {
                 OrderItem::DATE_UPDATE => $currentDate,
             ]);
             $product = $item;
-            $product->dec_quantity($item->quantity);
+            $product->dec_quantity($order->quantity);
             $products[] = $product;
             $itens[] = $order;
         }
