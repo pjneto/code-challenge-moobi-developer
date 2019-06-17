@@ -24,7 +24,9 @@ $details = $ordController->order_details();
 </style>
 
 <form method="POST">
-    
+<?php if (is_null($details->order) || intval($details->order->id) <= 0): ?>
+    <h2>THIS ORDER DOES NOT EXIST</h2>
+<?php else: ?>
     <div class="flex">
         <div style="width: 90%">
             <h2>Order Details</h2>
@@ -96,6 +98,7 @@ $details = $ordController->order_details();
             ?>
         </tbody>
     </table>
+<?php endif; ?>
 </form>
 
 <script>
