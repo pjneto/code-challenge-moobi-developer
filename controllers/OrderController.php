@@ -35,6 +35,23 @@ class OrderController extends Controller {
         return OK;
     }
 
+    public function table_data(): stdClass {
+
+        $data = new stdClass;
+        $data->titles = [
+            [ "width" => 5, "text" => "Code" ],
+            [ "width" => 20, "text" => "Date" ],
+            [ "width" => 20, "text" => "Price" ],
+            [ "width" => 20, "text" => "Discount" ],
+            [ "width" => 20, "text" => "Payment" ],
+            [ "width" => 10, "text" => "Status" ],
+            [ "width" => 5, "text" => "Details" ],
+        ];
+        $data->orders = $this->persistence->select_all();
+
+        return $data;
+    }
+
     public function products(): array {
         $searchable = isset($_POST['searchable']) ? $_POST['searchable'] : "";
         if (isset($_POST['btn-search']) && strlen($searchable) > 0) {
