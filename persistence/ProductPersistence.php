@@ -30,6 +30,14 @@ class ProductPersistence {
         return sizeof($products) > 0 ? array_pop($products) : new Product;
     }
 
+    public function select_by_order(int $idOrder): array {
+        $args = [ 
+            ":fid_order" => $idOrder,
+        ];
+        $where = "WHERE P.id in (SELECT OI.id_product FROM tb_order_itens OI WHERE OI.id_order = :fid_order) ";
+        return $this->execut_select($where, $args);
+    }
+
     public function select_by_search(string $search): array {
         $search = "%$search%";
         $args = [

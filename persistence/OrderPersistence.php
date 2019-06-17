@@ -21,6 +21,10 @@ class OrderPersistence {
             . "JOIN tb_payment_status PS on PS.code = O.cod_payment "
             . self::REPLACE_WHERE;
 
+    const SELECT_ITENS = "SELECT OI.id, OI.id_order, OI.id_product, OI.quantity, OI.date, OI.date_update "
+            . "FROM tb_order_itens OI "
+            . self::REPLACE_WHERE;
+
     const INSERT = "INSERT INTO tb_order (value, discount, num_parcel, value_parcel, status, cod_status, "
             . "payment, cod_payment, date, date_update) "
             . "VALUES (:fvalue, :fdiscount, :fnum_parcel, :fvalue_parcel, :fstatus, :fcod_status, "
@@ -30,17 +34,20 @@ class OrderPersistence {
             . self::REPLACE_VALUES;
 
     public function select_all(): array {
-        $where = "";
-        $query = str_replace(self::REPLACE_WHERE, $where, self::SELECT);
-        
-        $db = new DBConnection;
-        $values = $db->select($query);
-        
-        return array_map(function($v){
-            $order = new Order;
-            $order->from_values($v);
-            return $order;
-        }, $values);
+        return $this->select_order("");
+    }
+
+    public function select_by_id(int $id): Order {
+        $where = "WHERE O.id = :fid";
+        $args = [ ":fid" => $id ];
+        $orders = $this->select_order($where, $args);
+        return sizeof($orders) > 0 ? array_pop($orders) : new Order;
+    }
+
+    public function select_itens_by_order(int $idOrder): array {
+        $where = "WHERE OI.id_order = :fid_order ";
+        $args = [ ":fid_order" => $idOrder ];
+        return $this->select_order_itens($where, $args);
     }
 
     public function select_payment_by_code(int $code): string {
@@ -90,5 +97,29 @@ class OrderPersistence {
         
         $db = new DBConnection;
         return $db->insert($query, $values);   
+    }
+
+    private function select_order(string $where = null, array $args = []): array {
+        $values = $this->execute_select(self::SELECT, $where, $args);
+        return array_map(function($v){
+            $order = new Order;
+            $order->from_values($v);
+            return $order;
+        }, $values);
+    }
+
+    private function select_order_itens(string $where = null, array $args = []): array {
+        $values = $this->execute_select(self::SELECT_ITENS, $where, $args);
+        return array_map(function($v){
+            $orderItem = new OrderItem;
+            $orderItem->from_values($v);
+            return $orderItem;
+        }, $values);
+    }
+
+    private function execute_select(string $select, string $where = null, array $args = []): array {
+        $query = is_null($where) ? $select : str_replace(self::REPLACE_WHERE, $where, $select);
+        $db = new DBConnection;
+        return $db->select($query, $args);
     }
 }

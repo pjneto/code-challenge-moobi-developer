@@ -12,7 +12,9 @@ class OrderController extends Controller {
 
     function __construct() {
         parent::__construct("btn-remove", "btn-quantity", "btn-add-cart", "btn-search", 
-                "btn-confirm", "btn-back", "btn-finish", "btn-new", "btn-products");
+                "btn-confirm", "btn-back", "btn-finish", "btn-new", "btn-products",
+                "btn-details", 
+            );
         
         $this->persistence = new OrderPersistence;
         $this->productPersistence = new ProductPersistence;
@@ -28,6 +30,7 @@ class OrderController extends Controller {
             case "btn-remove": return $this->remove($input);
             case "btn-quantity": return $this->quantity($input);
             case "btn-add-cart": return $this->add_cart($input);
+            case "btn-details": return $this->details($input);
             case "btn-back": return $this->back();
             case "btn-confirm": return $this->confirm();
             case "btn-finish": return $this->finish();
@@ -76,6 +79,28 @@ class OrderController extends Controller {
         return $itens;
     }
 
+    public function order_details(): stdClass {
+        $idOrder = $_GET['value'];
+        $details = new stdClass;
+        $itensP = $this->persistence->select_itens_by_order($idOrder);
+        $itens = [];
+        foreach ($itensP as $item) {
+            $itens[$item->idProduct] = $item;
+        }
+
+        $details->order = $this->persistence->select_by_id($idOrder);
+        $details->itens = $itens;
+        $details->products = $this->productPersistence->select_by_order($idOrder);
+        $details->titleItens = [
+            [ "width" => 5, "text" => "Code" ],
+            [ "width" => 45, "text" => "Name" ],
+            [ "width" => 10, "text" => "Price" ],
+            [ "width" => 20, "text" => "Barcode" ],
+            [ "width" => 10, "text" => "Quantity" ],
+        ];
+        return $details;
+    }
+
     private function quantity(string $input): int {
         $id = intval($_POST[$input]);
         $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
@@ -108,6 +133,11 @@ class OrderController extends Controller {
             $_SESSION['cart'] = $cart;
         };
         return 0;
+    }
+
+    private function details(string $input): int {
+        $id = $_POST[$input];
+        return $this->go_to("pedido/detalhes/$id");
     }
 
     private function finish() {
