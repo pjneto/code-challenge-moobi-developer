@@ -12,7 +12,7 @@ class OrderController extends Controller {
 
     function __construct() {
         parent::__construct("btn-remove", "btn-quantity", "btn-add-cart", "btn-search", 
-                "btn-confirm", "btn-back", "btn-finish");
+                "btn-confirm", "btn-back", "btn-finish", "btn-new", "btn-products");
         
         $this->persistence = new OrderPersistence;
         $this->productPersistence = new ProductPersistence;
@@ -31,6 +31,8 @@ class OrderController extends Controller {
             case "btn-back": return $this->back();
             case "btn-confirm": return $this->confirm();
             case "btn-finish": return $this->finish();
+            case "btn-new": return $this->new_order();
+            case "btn-products": return $this->products_list();
         }
         return OK;
     }
@@ -177,8 +179,18 @@ class OrderController extends Controller {
         }
     }
 
-    private function back(): int {
+    private function new_order(): int {
         return $this->go_to(Controller::base_url("pedido/novo"));
+    }
+
+    private function products_list(): int {
+        return $this->go_to(Controller::base_url("produto"));
+    }
+
+    private function back(): int {
+        $action = isset($_GET['action']) ? $_GET['action'] : "pedido";
+        $url = $action === "finalizar" ? "pedido/novo" : "pedido";
+        return $this->go_to(Controller::base_url($url));
     }
 
     private function confirm(): int {

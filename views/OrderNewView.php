@@ -29,22 +29,23 @@ $products = $ordController->products();
         margin: 10px 0 4px 0;
     }
     div.actions {
+        justify-content: flex-end;
         display: flex;
-        width: 50%;
+        width: 60%;
     }
 
-    div.actions div.w-20, 
-    div.actions div.w-60 {
+    div.actions div.w-15, 
+    div.actions div.w-50 {
         margin: 20px 0;  
         padding-left: 5px;
     }
 
-    div.actions div.w-20 {
-        width: 20%;
+    div.actions div.w-15 {
+        width: 15%;
     }
 
-    div.actions div.w-60 {
-        width: 60%;
+    div.actions div.w-50 {
+        width: 50%;
     }
 
     div.actions button, 
@@ -55,18 +56,21 @@ $products = $ordController->products();
 </style>
 <form method="post">
     <div class="flex">
-        <div style="width: 50%">
+        <div style="width: 40%">
             <h2>New Order</h2>
         </div>
         <div class="actions">
-            <div class="w-60">
+            <div class="w-50">
                 <input type="text" name="searchable" placeholder="Anything to search">
             </div>
-            <div class="w-20">
+            <div class="w-15">
                 <button name="btn-search">Search Product</button>
             </div>
-            <div class="w-20">
+            <div class="w-15">
                 <button name="btn-confirm">Confirm Order</button>
+            </div>
+            <div class="w-15">
+                <button name="btn-back">Back</button>
             </div>
         </div>
     </div>

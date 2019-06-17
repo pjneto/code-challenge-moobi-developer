@@ -29,7 +29,7 @@ $table = $ordController->table_data();
                 <button name="btn-new">New Order</button>
             </div>
             <div class="btn-action">
-                <button name="btn-orders">Orders</button>
+                <button name="btn-products">Products</button>
             </div>
         </div>
     </div>
