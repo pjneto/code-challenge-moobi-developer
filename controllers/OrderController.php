@@ -133,7 +133,9 @@ class OrderController extends Controller {
         $order->numParcel = $parcels;
         $order->valueParcel = $orderValue / $parcels;
         $order->codPayment = $payment;
+        $order->payment = $this->persistence->select_payment_by_code($order->codPayment);
         $order->codStatus = ORD_OPEN;
+        $order->status = $this->persistence->select_status_by_code($order->codStatus);
         $order->date = ValuesUtil::format_date();
         $order->dateUpdate = ValuesUtil::format_date();
         
