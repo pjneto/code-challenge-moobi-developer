@@ -29,7 +29,7 @@ class ProductController extends Controller {
 
     public function table_data(): stdclass {
         $values = new stdClass;
-        $values->products = $this->persistence->select_all();
+        $values->products = $this->search_products();
         $values->titles = [
             [ "width" => 5, "text" => "Code" ],
             [ "width" => 40, "text" => "Name" ],
@@ -44,6 +44,18 @@ class ProductController extends Controller {
 
     public function get_product(int $id): Product {
         return $this->persistence->select_by_id($id);
+    }
+
+    public function searchable_value(): string {
+        return isset($_POST['searchable']) ? $_POST['searchable'] : "";
+    }
+
+    private function search_products(): array {
+        $searchable = $this->searchable_value();
+        if (isset($_POST['btn-search']) && strlen($searchable) > 0) {
+            return $this->persistence->select_by_search($searchable);
+        }
+        return $this->persistence->select_all();
     }
 
     private function save(): int {

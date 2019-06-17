@@ -35,11 +35,13 @@ class ProductPersistence {
         $args = [
             ":f" . Product::COD_STATUS => PRO_ACTIVE,
             ":f" . Product::NAME => $search,
+            ":f" . Product::BARCODE => $search,
             ":f" . Product::DESCRIPTION => $search,
             ":f" . Product::PRICE => $search,
         ];
         $where = "WHERE P.cod_status = :fcod_status AND ("
                 . "P.name like :fname "
+                . "OR P.barcode like :fbarcode "
                 . "OR P.description like :fdescription "
                 . "OR P.price like :fprice"
                 . ") ";

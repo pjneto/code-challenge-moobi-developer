@@ -5,6 +5,7 @@ require_once "controllers/ProductController.php";
 $prodController = new ProductController;
 $result = $prodController->post($prodController->input_name());
 $table = $prodController->table_data();
+$searchable = $prodController->searchable_value();
 ?>
 <title>Products</title>
 <style>
@@ -14,6 +15,7 @@ $table = $prodController->table_data();
         margin: 20px 0;  
         padding-left: 5px;
     }
+    div input,
     div.btn-action button {
         width: 100%;
     }
@@ -21,10 +23,16 @@ $table = $prodController->table_data();
 
 <form method="POST">
     <div class="flex">
-        <div style="width: 80%">
+        <div style="width: 40%">
             <h2>Product List</h2>
         </div>
-        <div style="display: flex; width: 20%;">
+        <div style="padding: 20px 0; width: 30%;">
+            <input type="text" name="searchable" placeholder="Anything to search" value="<?= $searchable ?>">
+        </div>
+        <div style="display: flex; width: 30%;">
+            <div class="btn-action">
+                <button name="btn-search">Search</button>
+            </div>
             <div class="btn-action">
                 <button name="btn-new">New Product</button>
             </div>
