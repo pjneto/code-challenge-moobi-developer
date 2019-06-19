@@ -13,7 +13,7 @@ class OrderController extends Controller {
     function __construct() {
         parent::__construct("btn-remove", "btn-quantity", "btn-add-cart", "btn-search", 
                 "btn-confirm", "btn-back", "btn-finish", "btn-new", "btn-products",
-                "btn-details", 
+                "btn-details"
             );
         
         $this->persistence = new OrderPersistence;
@@ -139,6 +139,11 @@ class OrderController extends Controller {
             $count += $this->productPersistence->update($product);
         }
         return $count;
+    }
+
+    public function delete(int $id): int {
+        $idDeleted = $this->persistence->delete($id);
+        return $idDeleted <= 0 ? ERR_ORDER_DELETE : $idDeleted;
     }
 
     private function quantity(string $input): int {

@@ -2,7 +2,6 @@
 
 require_once "src/models/Order.php";
 require_once "src/controllers/OrderController.php";
-require_once "src/controllers/ProductController.php";
 
 use PHPUnit\DbUnit\TestCaseTrait;
 use PHPUnit\Framework\TestCase;
@@ -11,14 +10,13 @@ class OrderControllerTest extends TestCase {
 
     use TestCaseTrait;
 
-    private $controller = null, $prodController = null;
+    private $controller = null;
     private $conn = null;
     private static $pdo = null;
 
     public function getConnection() {
 
         $this->controller = is_null($this->controller) ? new OrderController : $this->controller;
-        $this->prodController = is_null($this->prodController) ? new ProductController : $this->prodController;
 
         try {
             $host = DB_HOST;
@@ -114,6 +112,6 @@ class OrderControllerTest extends TestCase {
     public function testDeleteOrderPerId() {
         $id = 2;
         $idOrder = $this->controller->delete($id);
-        $this-assertGreaterThan(0, $idOrder);
+        $this->assertGreaterThan(0, $idOrder);
     }
 }

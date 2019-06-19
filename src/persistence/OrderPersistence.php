@@ -33,6 +33,8 @@ class OrderPersistence {
     const INSERT_ALL_ITENS = "INSERT INTO tb_order_itens (id_order, id_product, quantity, date, date_update) "
             . self::REPLACE_VALUES;
 
+    const DELETE = "DELETE FROM tb_order " . self::REPLACE_WHERE;
+
     public function select_all(): array {
         return $this->select_order("");
     }
@@ -104,6 +106,13 @@ class OrderPersistence {
         
         $db = new DBConnection;
         return $db->insert($query, $values);   
+    }
+
+    public function delete(int $id): int {
+        $where = "WHERE id = :fid ";
+        $query = str_replace(self::REPLACE_WHERE, $where, self::DELETE);
+        $db = new DBConnection;
+        return $db->delete($query, [ ":fid" => $id]);
     }
 
     private function select_order(string $where = null, array $args = []): array {
