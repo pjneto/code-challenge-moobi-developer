@@ -50,12 +50,10 @@ CREATE TABLE IF NOT EXISTS tb_order_status (
 );
 
 
--------------------------------------------------------
 -- SELECT * FROM tb_payment_status;
 INSERT INTO tb_payment_status (code, description) 
 VALUES (0, "Cash"), (1, "Credit Card"), (2, "Bank Slip");
 
--------------------------------------------------------
 -- SELECT * FROM tb_order_status
 INSERT INTO tb_order_status (code, description)
 VALUES (0, "Payed"), (1, "Canceled"), (2, "Open");
