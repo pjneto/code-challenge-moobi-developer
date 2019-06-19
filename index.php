@@ -1,8 +1,9 @@
 <?php 
-    require_once "controllers/Controller.php";
-    require_once "utils/Router.php";
 
-    $assets = Controller::base_url("assets/css");
+    require_once "src/controllers/Controller.php";
+    require_once "src/utils/Router.php";
+
+    $assets = Controller::base_url("src/assets/css");
     $pathCSS = "$assets/style.css";
 ?>
 

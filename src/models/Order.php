@@ -1,5 +1,7 @@
 <?php
 
+require_once "src/utils/ValuesUtil.php";
+
 class Order {
 
     const TABLE = "tb_order";

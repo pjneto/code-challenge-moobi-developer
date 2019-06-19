@@ -1,6 +1,6 @@
 <?php 
 
-require_once "controllers/OrderController.php";
+require_once "src/controllers/OrderController.php";
 
 $ordController = new OrderController;
 $result = $ordController->post($ordController->input_name());

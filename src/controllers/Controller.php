@@ -1,6 +1,6 @@
 <?php
 
-require_once "utils/Consts.php";
+require_once "src/utils/Consts.php";
 
 abstract class Controller {
 

@@ -1,7 +1,7 @@
 <?php
 
-require_once "persistence/DBConnection.php";
-require_once "models/Product.php";
+require_once "src/persistence/DBConnection.php";
+require_once "src/models/Product.php";
 
 class ProductPersistence {
 

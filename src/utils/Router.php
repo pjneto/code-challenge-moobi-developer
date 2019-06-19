@@ -76,8 +76,8 @@ class Router {
     }
 
     private function include($route) {
-        $page = "views/" . $route . ".php"; 
-        $page = file_exists($page) ? $page : 'views/PageNotFoundView.php';
+        $page = "src/views/" . $route . ".php"; 
+        $page = file_exists($page) ? $page : 'src/views/PageNotFoundView.php';
         include_once $page;
     } 
 }?>

@@ -1,7 +1,7 @@
 <?php 
-require_once "controllers/Controller.php";
-require_once "models/Product.php";
-require_once "persistence/ProductPersistence.php";
+require_once "src/controllers/Controller.php";
+require_once "src/models/Product.php";
+require_once "src/persistence/ProductPersistence.php";
 
 class ProductController extends Controller {
 

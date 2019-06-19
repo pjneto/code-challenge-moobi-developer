@@ -1,7 +1,7 @@
 <?php
 
-require_once "models/Order.php";
-require_once "models/OrderItem.php";
+require_once "src/models/Order.php";
+require_once "src/models/OrderItem.php";
 
 class OrderPersistence {
 

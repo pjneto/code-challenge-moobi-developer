@@ -1,5 +1,5 @@
 <?php 
-require_once "controllers/ProductController.php";
+require_once "src/controllers/ProductController.php";
 
 $prodController = new ProductController;
 $result = $prodController->post($prodController->input_name());
