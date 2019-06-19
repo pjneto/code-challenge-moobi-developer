@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS dev_bd_toy_shop;
+CREATE DATABASE IF NOT EXISTS bd_toy_shop_dev;
 
-USE dev_bd_toy_shop;
+USE bd_toy_shop_dev;
 
 CREATE TABLE IF NOT EXISTS tb_product (
 	id int PRIMARY KEY NOT NULL AUTO_INCREMENT, 
@@ -50,12 +50,10 @@ CREATE TABLE IF NOT EXISTS tb_order_status (
 );
 
 
--------------------------------------------------------
 -- SELECT * FROM tb_payment_status;
 INSERT INTO tb_payment_status (code, description) 
 VALUES (0, "Cash"), (1, "Credit Card"), (2, "Bank Slip");
 
--------------------------------------------------------
 -- SELECT * FROM tb_order_status
 INSERT INTO tb_order_status (code, description)
 VALUES (0, "Payed"), (1, "Canceled"), (2, "Open");
