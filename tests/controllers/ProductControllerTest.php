@@ -23,11 +23,12 @@ class ProductControllerTest extends TestCase {
             $dbName = DBConnection::get_db_name();
             $username = DB_USER;
             $password = DB_PASSWORD;
+            $port = DB_PORT;
 
             $options = array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'
             );
-            $strConnection = "mysql:host=$host;dbname=$dbName";
+            $strConnection = "mysql:host=$host;port=$port;dbname=$dbName";
 
             if (is_null($this->conn)) {
                 if (is_null(self::$pdo)) {

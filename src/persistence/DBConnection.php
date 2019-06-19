@@ -3,13 +3,14 @@ require_once "configs.php";
 
 class DBConnection {
 
-    private $host, $dbName, $username, $password;
+    private $host, $dbName, $username, $password, $port;
 
     function __construct() {
         $this->dbName = self::get_db_name();
         $this->host = DB_HOST;
         $this->username = DB_USER;
         $this->password = DB_PASSWORD;
+        $this->port = DB_PORT;
     }
 
     public static function get_db_name(): ?string {
@@ -81,7 +82,7 @@ class DBConnection {
             $options = array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'
             );
-            $strConnection = "mysql:host=$this->host;dbname=$this->dbName";
+            $strConnection = "mysql:host=$this->host;port=$this->port;dbname=$this->dbName";
 
             $connection = new PDO($strConnection, $this->username, $this->password, $options);
             $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
