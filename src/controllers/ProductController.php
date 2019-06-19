@@ -50,6 +50,36 @@ class ProductController extends Controller {
         return isset($_POST['searchable']) ? $_POST['searchable'] : "";
     }
 
+    public function insert(Product $product): int {
+        if ($product->invalid_values()) {
+            return ERROR;
+        }
+        $id = $this->persistence->insert($product);
+        return $id > 0 ? $id : ERR_PRODUCT_SAVE;
+    }
+
+    public function update(Product $product): int {
+        if ($product->invalid_values()) {
+            return ERROR;
+        }
+        $id = $this->persistence->update($product);
+        return intval($id) < 0 ? ERR_PRODUCT_EDIT : $id;
+    }
+    
+    public function delete(int $id): int {
+        return $this->persistence->delete($id);
+    }
+
+    public function delete_all(): int {
+        return $this->persistence->delete_all();
+    }
+
+    public function change_status(int $id): int {
+        $product = $this->get_product($id);
+        $product->change_status();
+        return $this->update($product);
+    }
+
     private function search_products(): array {
         $searchable = $this->searchable_value();
         if (isset($_POST['btn-search']) && strlen($searchable) > 0) {
@@ -67,12 +97,7 @@ class ProductController extends Controller {
 
         $product = new Product;
         $product->from_values($values);
-
-        if ($product->invalid_values()) {
-            return ERR_PRODUCT_SAVE;
-        }
-        $id = $this->persistence->insert($product);
-        return $id > 0 ? $id : ERR_PRODUCT_SAVE;
+        return $this->insert($product);
     }
 
     private function edit(string $input): int {
@@ -85,15 +110,12 @@ class ProductController extends Controller {
         $values['date_update'] = ValuesUtil::format_date();
         $values['cod_status'] = $product->codStatus;
         $product->from_values($values);
-        return $this->persistence->update($product);
+        return $this->update($product);
     }
 
     private function inactivate(string $input): int {
         $id = intval($_POST[$input]);
-        $product = $this->get_product($id);
-        $product->codStatus = $product->codStatus === PRO_INACTIVE ? PRO_ACTIVE : PRO_INACTIVE;
-        $product->dateUpdate = ValuesUtil::format_date();
-        return $this->persistence->update($product);
+        return $this->change_status($id);
     }
 
     private function details(string $input): int {

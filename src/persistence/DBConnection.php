@@ -6,10 +6,19 @@ class DBConnection {
     private $host, $dbName, $username, $password;
 
     function __construct() {
+        $this->dbName = self::get_db_name();
         $this->host = DB_HOST;
-        $this->dbName = DB_NAME;
         $this->username = DB_USER;
         $this->password = DB_PASSWORD;
+    }
+
+    public static function get_db_name(): ?string {
+        $dbNames = [
+            "DEV" => DEV_DB_NAME,
+            "HOMOL" => HOMOL_DB_NAME,
+            "PROD" => PROD_DB_NAME,
+        ];
+        return $dbNames[ENVIRONMENT] ?? null;
     }
 
     public function insert(string $query, array $params): int {
@@ -34,6 +43,18 @@ class DBConnection {
     public function update(string $query, array $params): int {
         $connection = $this->open_connection();
         $prepare = $connection->prepare($query);
+        if ($prepare) {
+            $prepare->execute($params);
+            $rows = $prepare->rowCount();
+            return $rows;
+        }
+        return -1;
+    }
+
+    public function delete(string $query, array $params): int {
+        $connection = $this->open_connection();
+        $prepare = $connection->prepare($query);
+        
         if ($prepare) {
             $prepare->execute($params);
             $rows = $prepare->rowCount();

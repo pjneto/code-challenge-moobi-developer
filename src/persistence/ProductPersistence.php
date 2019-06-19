@@ -21,6 +21,9 @@ class ProductPersistence {
                 . "barcode = :fbarcode, cod_status = :fcod_status, date_update = :fdate_update "
                 . self::REPLACE_WHERE;
 
+    const DELETE = "DELETE FROM tb_product "
+                . self::REPLACE_WHERE;
+
     public function select_by_id(int $id): Product {
         $args = [ 
             ":" . Product::ID => $id,
@@ -89,6 +92,13 @@ class ProductPersistence {
         
         $db = new DBConnection;
         return $db->update($query, $values);
+    }
+
+    public function delete(int $id): int {
+        $where = "WHERE id = :id;";
+        $query = str_replace(self::REPLACE_WHERE, $where, self::DELETE);
+        $db = new DBConnection;
+        return $db->delete($query, [ ":id" => $id ]);
     }
 
     private function execut_select(string $where = null, array $args = []): array {

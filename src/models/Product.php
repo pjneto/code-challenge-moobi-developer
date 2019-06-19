@@ -28,7 +28,8 @@ class Product {
         return ValuesUtil::is_null_or_empty($this->name)
                 || ValuesUtil::is_null_or_empty($this->description)
                 || ValuesUtil::is_null_or_empty($this->barcode)
-                || ValuesUtil::is_null_or_empty($this->price);
+                || floatval($this->price) <= 0
+                || intval($this->stock) <= 0;
     }
 
     public function inc_quantity(int $quantity) {
@@ -40,6 +41,11 @@ class Product {
         if ($this->stock <= 0) {
             $this->stock = 0;
         }
+    }
+
+    public function change_status() {
+        $status = $this->codStatus === PRO_INACTIVE ? PRO_ACTIVE : PRO_INACTIVE;
+        $this->codStatus = $status;
     }
 
     public function db_values(bool $widthId = false): array {
