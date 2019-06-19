@@ -35,6 +35,8 @@ class OrderPersistence {
 
     const DELETE = "DELETE FROM tb_order " . self::REPLACE_WHERE;
 
+    const DELETE_ORDER_ITEM = "DELETE FROM tb_order_itens " . self::REPLACE_WHERE;
+
     public function select_all(): array {
         return $this->select_order("");
     }
@@ -84,6 +86,14 @@ class OrderPersistence {
         return $db->insert($query, $values);   
     }
 
+    public function insert_item(OrderItem $item): int {
+        $values = "VALUES (:fid_order, :fid_product, :fquantity, :fdate, :fdate_update);";
+        $query = str_replace(self::REPLACE_VALUES, $values, self::INSERT_ALL_ITENS);
+        $values = $item->db_values();
+        $db = new DBConnection;
+        return $db->insert($query, $values);
+    }
+
     public function insert_itens(array $itens): int {
 
         if (sizeof($itens) === 0) {
@@ -113,6 +123,13 @@ class OrderPersistence {
         $query = str_replace(self::REPLACE_WHERE, $where, self::DELETE);
         $db = new DBConnection;
         return $db->delete($query, [ ":fid" => $id]);
+    }
+
+    public function delete_order_item(int $id): int {
+        $where = "WHERE id = :fid ";
+        $query = $query = str_replace(self::REPLACE_WHERE, $where, self::DELETE_ORDER_ITEM);
+        $db = new DBConnection;
+        return $db->delete($query, [ ":fid" => $id ]);
     }
 
     private function select_order(string $where = null, array $args = []): array {

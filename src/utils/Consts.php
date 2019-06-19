@@ -18,6 +18,7 @@ define("ERR_ORDER_DELETE", -7);
 define("ERR_ORDER_ITEM_SAVE", -8);
 define("ERR_ORDER_ITEM_EDIT", -9);
 define("ERR_ORDER_ITEM_DELETE", -10);
+define("ERR_PRODUCT_ZERO_STOCK", -11);
 
 /** COD STATUS OF PRODUCT */
 define("PRO_INACTIVE", 0);

@@ -128,9 +128,36 @@ class OrderController extends Controller {
         return $order->id <= 0 ? ERR_ORDER_SAVE : $order->id;
     }
 
+    public function insert_item(OrderItem $item): int {
+        $result = $this->persistence->insert_item($item);
+        if ($result <= 0) {
+            return ERR_ORDER_ITEM_EDIT;
+        }
+        $product = $this->productPersistence->select_by_id($item->idProduct);
+        $product->dec_quantity($item->quantity);
+        if ($product->stock <= 0) {
+            return ERR_PRODUCT_ZERO_STOCK;
+        }
+        return $this->update_products([ $product ]);
+    }
+
     public function insert_itens(int $orderId, array $itens): int {
         $result = $this->persistence->insert_itens($itens);
-        return $result <= 0 ? ERR_ORDER_ITEM_SAVE : $result;
+        if ($result <= 0) {
+            return ERR_ORDER_ITEM_SAVE;
+        }
+
+        $products = [];
+        foreach ($itens as $item) {
+            $product = $this->productPersistence->select_by_id($item->idProduct);
+            $product->dec_quantity($item->quantity);
+
+            if ($product->stock <= 0) {
+                return ERR_PRODUCT_ZERO_STOCK;
+            }
+            $products[] = $product;
+        }
+        return $this->update_products($products);
     }
 
     public function update_products(array $products): int {
@@ -138,12 +165,17 @@ class OrderController extends Controller {
         foreach ($products as $product) {
             $count += $this->productPersistence->update($product);
         }
-        return $count;
+        return $count === sizeof($products) ? $count : ERR_PRODUCT_EDIT;
     }
 
     public function delete(int $id): int {
         $idDeleted = $this->persistence->delete($id);
         return $idDeleted <= 0 ? ERR_ORDER_DELETE : $idDeleted;
+    }
+
+    public function delete_order_item(int $id): int {
+        $idDeleted = $this->persistence->delete_order_item($id);
+        return $idDeleted <= 0 ? ERR_ORDER_ITEM_DELETE : $idDeleted;
     }
 
     private function quantity(string $input): int {
