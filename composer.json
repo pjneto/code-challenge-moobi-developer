@@ -1,7 +1,8 @@
 {
     "name": "anail/code-challenge-moobi",
     "require-dev": {
-        "phpunit/phpunit": "^8.2"
+        "phpunit/phpunit": "^7.0",
+        "phpunit/dbunit": "^4.0"
     },
     "authors": [
         {

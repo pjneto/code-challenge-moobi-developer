@@ -3,12 +3,8 @@
     backupStaticAttributes="false"
     bootstrap="vendor/autoload.php"
     colors="true"
-    convertErrosToException="true"
-    convertNoticesToException="true"
-    convertWarningsToException="true"
     processIsolation="true"
-    stopOnFailure="false"
-    syntaxCheck="false">
+    stopOnFailure="false">
     <testsuites>
         <testsuite name="Package Test Suit">
             <directory suffix=".php">./tests/</directory>
