@@ -12,6 +12,12 @@ define("ERROR", -1);
 define("ERR_PRODUCT_SAVE", -2);
 define("ERR_PRODUCT_EDIT", -3);
 define("ERR_PRODUCT_DELETE", -4);
+define("ERR_ORDER_SAVE", -5);
+define("ERR_ORDER_EDIT", -6);
+define("ERR_ORDER_DELETE", -7);
+define("ERR_ORDER_ITEM_SAVE", -8);
+define("ERR_ORDER_ITEM_EDIT", -9);
+define("ERR_ORDER_ITEM_DELETE", -10);
 
 /** COD STATUS OF PRODUCT */
 define("PRO_INACTIVE", 0);

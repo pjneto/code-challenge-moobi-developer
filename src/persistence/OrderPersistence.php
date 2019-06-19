@@ -44,6 +44,13 @@ class OrderPersistence {
         return sizeof($orders) > 0 ? array_pop($orders) : new Order;
     }
 
+    public function select_item_by_id_product(int $product): OrderItem {
+        $where = "WHERE OI.id_product = :fid_product ";
+        $args = [ ":fid_product" => $product ];
+        $orders = $this->select_order_itens($where, $args);
+        return sizeof($orders) > 0 ? array_pop($orders) : new OrderItem;
+    }
+
     public function select_itens_by_order(int $idOrder): array {
         $where = "WHERE OI.id_order = :fid_order ";
         $args = [ ":fid_order" => $idOrder ];

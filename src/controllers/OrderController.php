@@ -101,6 +101,36 @@ class OrderController extends Controller {
         return $details;
     }
 
+    public function get_by_id(int $id): Order {
+        return $this->persistence->select_by_id($id);
+    }
+
+    public function get_item_by_id_product(int $id): OrderItem {
+        return $this->persistence->select_item_by_id_product($id);
+    }
+
+    public function insert(Order $order): int {
+        if ($order->invalid_values()) {
+            return ERROR;
+        }
+        
+        $order->id = $this->persistence->insert($order);
+        return $order->id <= 0 ? ERR_ORDER_SAVE : $order->id;
+    }
+
+    public function insert_itens(int $orderId, array $itens): int {
+        $result = $this->persistence->insert_itens($itens);
+        return $result <= 0 ? ERR_ORDER_ITEM_SAVE : $result;
+    }
+
+    public function update_products(array $products): int {
+        $count = 0;
+        foreach ($products as $product) {
+            $count += $this->productPersistence->update($product);
+        }
+        return $count;
+    }
+
     private function quantity(string $input): int {
         $id = intval($_POST[$input]);
         $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
@@ -171,21 +201,19 @@ class OrderController extends Controller {
         $order->date = ValuesUtil::format_date();
         $order->dateUpdate = ValuesUtil::format_date();
         
-        $order->id = $this->persistence->insert($order);
-        $this->insert_itens($order->id, $cart);
-        
-        return $order->id;
-    }
+        $idOrder = $this->insert($order);
+        if ($idOrder <= 0) {
+            return $idOrder;
+        }
 
-    private function insert_itens(int $idOrder, array $cart): int {
         $itens = [];
         $products = [];
         $currentDate = ValuesUtil::format_date();
         foreach ($cart as $c) {
             $item = $c['item'];
 
-            $order = new OrderItem;
-            $order->from_values([
+            $orderItem = new OrderItem;
+            $orderItem->from_values([
                 OrderItem::ID_PRODUCT => $item->id,
                 OrderItem::ID_ORDER => $idOrder,
                 OrderItem::QUANTITY => $c['quantity'],
@@ -193,20 +221,16 @@ class OrderController extends Controller {
                 OrderItem::DATE_UPDATE => $currentDate,
             ]);
             $product = $item;
-            $product->dec_quantity($order->quantity);
+            $product->dec_quantity($orderItem->quantity);
             $products[] = $product;
-            $itens[] = $order;
+            $itens[] = $orderItem;
         }
-        $result = $this->persistence->insert_itens($itens);
-        $this->update_stock($products);
+
+        $result = $this->insert_itens($idOrder, $itens);
+        $result = $this->update_products($products);
+
         unset($_SESSION['cart']);
         return $result;
-    }
-
-    private function update_stock(array $products) {
-        foreach ($products as $product) {
-            $this->productPersistence->update($product);
-        }
     }
 
     private function new_order(): int {

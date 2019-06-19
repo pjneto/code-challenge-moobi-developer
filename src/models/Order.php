@@ -20,6 +20,7 @@ class Order {
     public $id, $numParcel, $codStatus, $codPayment;
     public $value, $valueParcel, $discount;
     public $date, $dateUpdate;
+    public $payment, $status;
 
     function __construct() {
         $this->id = -1;
@@ -42,6 +43,17 @@ class Order {
             $values[":f" . self::ID] = $this->id;
         }
         return $values;
+    }
+
+    public function invalid_values(): bool {
+        return ValuesUtil::is_null_or_empty($this->status)
+                || ValuesUtil::is_null_or_empty($this->payment)
+                || intval($this->codStatus) < 0
+                || intval($this->codPayment) < 0
+                || intval($this->numParcel) <= 0
+                || floatval($this->valueParcel) <= 0
+                || floatval($this->value) <= 0
+                || floatval($this->discount) <= 0;
     }
     
     public function from_values(array $values) {
