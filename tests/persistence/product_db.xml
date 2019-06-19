@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<dataset>
+    <tb_product 
+        name="Product #1" 
+        description="Same description #1" 
+        barcode="631225363345"
+        price="100.00"
+        stock="23"
+        cod_status="1"
+        date="2019-06-19 00:43:01"
+        date_update="2019-06-19 00:43:01" />
+
+    <tb_product 
+        name="Product #2" 
+        description="Same description #2" 
+        barcode="3130130821"
+        price="32.00"
+        stock="23"
+        cod_status="0"
+        date="2019-06-19 00:43:01"
+        date_update="2019-06-19 00:43:01" />
+
+    <tb_product 
+        name="Product #3" 
+        description="Same description #3" 
+        barcode="5620296201"
+        price="2.00"
+        stock="10"
+        cod_status="1"
+        date="2019-06-19 00:43:01"
+        date_update="2019-06-19 00:43:01" />
+
+    <tb_product
+        name="Product #33" 
+        description="Same description of product #33" 
+        barcode="128345345"
+        price="32.00"
+        stock="43"
+        cod_status="1"
+        date="2019-06-19 00:43:01"
+        date_update="2019-06-19 00:43:01" />
+
+    <tb_product
+        name="Product #42" 
+        description="Another random description " 
+        barcode="02927262245"
+        price="32.00"
+        stock="10"
+        cod_status="0"
+        date="2019-06-19 00:43:01"
+        date_update="2019-06-19 00:43:01" />
+</dataset> 
