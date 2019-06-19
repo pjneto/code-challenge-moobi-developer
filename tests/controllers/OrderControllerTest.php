@@ -51,54 +51,68 @@ class OrderControllerTest extends TestCase {
         return $this->createFlatXmlDataSet('./tests/persistence/order_db.xml');
     }
 
-
-    public function testRowsCount() {
+    public function testOrdersCount() {
         $expectedTable = $this->createFlatXmlDataSet("./tests/persistence/order_db.xml")
                 ->getTable("tb_order");
         $rows = $expectedTable->getRowCount();
         $this->assertEquals(5, $rows);
     }
 
-    public function testAddNewOrder() {
-        $values = [
+    public function testAddNewOrders() {
+        $orderBankSlip = new Order;
+        $orderBankSlip->from_values([
             Order::VALUE => 2500,
-            Order::DISCOUNT => 125,
-            Order::NUM_PARCEL => 1,
-            Order::VALUE_PARCEL => 2500,
+            Order::DISCOUNT => 0,
+            Order::NUM_PARCEL => 12,
+            Order::VALUE_PARCEL => 0,
             Order::PAYMENT => "Bank Slip",
             Order::COD_PAYMENT => 2,
             Order::STATUS => "Open",
             Order::COD_STATUS => 2,
             Order::DATE => ValuesUtil::format_date(),
             Order::DATE_UPDATE => ValuesUtil::format_date(),
-        ];
-        $order = new Order;
-        $order->from_values($values);
-        $id = $this->controller->insert($order);
-        $this->assertGreaterThan(0, $id);
+        ]);
+
+        $orderCash = new Order;
+        $orderCash->from_values([
+            Order::VALUE => 3500,
+            Order::DISCOUNT => 0,
+            Order::NUM_PARCEL => 12,
+            Order::VALUE_PARCEL => 0,
+            Order::PAYMENT => "Cash",
+            Order::COD_PAYMENT => 0,
+            Order::STATUS => "Open",
+            Order::COD_STATUS => 2,
+            Order::DATE => ValuesUtil::format_date(),
+            Order::DATE_UPDATE => ValuesUtil::format_date(),
+        ]);
+
+        
+        $orderCredit = new Order;
+        $orderCredit->from_values([
+            Order::VALUE => 10000,
+            Order::DISCOUNT => 0,
+            Order::NUM_PARCEL => 12,
+            Order::VALUE_PARCEL => 0,
+            Order::PAYMENT => "Credit Card",
+            Order::COD_PAYMENT => 1,
+            Order::STATUS => "Open",
+            Order::COD_STATUS => 2,
+            Order::DATE => ValuesUtil::format_date(),
+            Order::DATE_UPDATE => ValuesUtil::format_date(),
+        ]);
+
+        $idBank = $this->controller->insert($orderBankSlip);
+        $idCash = $this->controller->insert($orderCash);
+        $idCredit = $this->controller->insert($orderCredit);
+        $this->assertGreaterThan(0, $idBank);
+        $this->assertGreaterThan(0, $idCash);
+        $this->assertGreaterThan(0, $idCredit);
     }
 
-    public function testAddItensOrder() {
-        $idOrder = 6;
-        $itens = [
-            $this->controller->get_item_by_id_product(2),
-            $this->controller->get_item_by_id_product(3),
-        ];
-
-        $hasProductWithoutStock = false;
-
-        $products = array_map(function($item) {
-            return $this->prodController->get_product($item->idProduct);
-        }, $itens);
-
-        foreach ($products as $prod) {
-            if ($prod->stock <= 0) {
-                $hasProductWithoutStock = true;
-                break;
-            }
-        }
-        $id = boolval($hasProductWithoutStock) 
-                ? -1 : $this->controller->insert_itens($idOrder, $itens);
-        $this->assertGreaterThan(0, $id);
+    public function testDeleteOrderPerId() {
+        $id = 2;
+        $idOrder = $this->controller->delete($id);
+        $this-assertGreaterThan(0, $idOrder);
     }
 }

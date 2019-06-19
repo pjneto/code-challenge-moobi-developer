@@ -110,6 +110,16 @@ class OrderController extends Controller {
     }
 
     public function insert(Order $order): int {
+        
+        $discount = $order->codPayment === PAY_BANK_SLIP ? 0.05 
+                : ($order->codPayment === PAY_CASH ? 0.1 : 0);
+        $order->discount = $order->value * $discount;
+        $order->numParcel = $order->numParcel <= 0 || $order->codPayment !== PAY_CREDIT_CARD ? 1 
+                : $order->numParcel;
+        $order->valueParcel = $order->codPayment === PAY_CASH || $order->codPayment === PAY_BANK_SLIP
+                ? $order->value - $order->discount 
+                : $order->value / $order->numParcel;
+
         if ($order->invalid_values()) {
             return ERROR;
         }
@@ -176,9 +186,7 @@ class OrderController extends Controller {
             return -1;
         }
         $payment = intval($_POST['payment']);
-        $parcels = $payment === PAY_CREDIT_CARD && isset($_POST['parcels']) && intval($_POST['parcels']) > 0 
-                ? intval($_POST['parcels']) 
-                : 1;
+        $parcels = isset($_POST['parcels']) ? intval($_POST['parcels']) : 1;
         $orderValue = array_reduce($cart, function($acc, $c){
             $product = $c['item'];
             $quantity = intval($c['quantity']);
@@ -186,14 +194,11 @@ class OrderController extends Controller {
             return $acc;
         }, 0);
 
-        $discount = $payment === PAY_BANK_SLIP ? 0.05 
-                : ($payment === PAY_CASH ? 0.1 : 0);
-                
         $order = new Order;
         $order->value = $orderValue;
-        $order->discount = $orderValue * $discount;
+        $order->discount = 0;
         $order->numParcel = $parcels;
-        $order->valueParcel = $orderValue / $parcels;
+        $order->valueParcel = 0;
         $order->codPayment = $payment;
         $order->payment = $this->persistence->select_payment_by_code($order->codPayment);
         $order->codStatus = ORD_OPEN;
@@ -203,7 +208,7 @@ class OrderController extends Controller {
         
         $idOrder = $this->insert($order);
         if ($idOrder <= 0) {
-            return $idOrder;
+            return ERR_ORDER_SAVE;
         }
 
         $itens = [];
@@ -227,7 +232,14 @@ class OrderController extends Controller {
         }
 
         $result = $this->insert_itens($idOrder, $itens);
+        if ($result <= 0) {
+            return ERR_ORDER_ITEM_SAVE;
+        }
+
         $result = $this->update_products($products);
+        if ($result <= 0) {
+            return ERR_PRODUCT_EDIT;
+        }
 
         unset($_SESSION['cart']);
         return $result;

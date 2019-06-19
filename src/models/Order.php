@@ -53,7 +53,7 @@ class Order {
                 || intval($this->numParcel) <= 0
                 || floatval($this->valueParcel) <= 0
                 || floatval($this->value) <= 0
-                || floatval($this->discount) <= 0;
+                || floatval($this->discount) < 0;
     }
     
     public function from_values(array $values) {
