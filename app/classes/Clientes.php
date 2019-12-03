@@ -27,12 +27,33 @@ class Clientes
 
     public function cadastrarCliente(array $dados)
     {
-        return $this->objConexao->insert($this->tabela, $dados);
+        try {
+            if (empty($dados['documento'])) {
+                throw new \Exception("Documento não informado!");
+            }
+
+            if (empty($dados['telefone'])) {
+                throw new \Exception("Telefone não informado!");
+            }
+
+            if (empty($dados['celular'])) {
+                throw new \Exception("Celular não informado!");
+            }
+
+            if (empty($dados['email'])) {
+                throw new \Exception("E-mail não informado!");
+            }
+
+            return $this->objConexao->insert($this->tabela, $dados);
+        } catch(\Exception $erro) {
+            echo $erro->getMessage();
+            exit;
+        }
     }
 
-    public function atualizarCliente(array $dados, $idCliente)
+    public function atualizarCliente(array $novosDados, $idCliente)
     {
-        return $this->objConexao->update($this->tabela, $dados, $idCliente, $this->chave);
+        return $this->objConexao->update($this->tabela, $novosDados, $idCliente, $this->chave);
     }
 
     public function inativarCliente($idCliente)
