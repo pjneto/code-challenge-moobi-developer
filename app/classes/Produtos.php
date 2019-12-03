@@ -62,4 +62,30 @@ class Produtos
     {
     	return $this->objConexao->delete($this->tabela, $idProduto, $this->chave);
     }
+
+    public function verificarQtdProduto(array $produtos)
+    {
+        $retorno = ['sucesso' => true];
+        
+        foreach ($produtos as $indice => $idproduto) {
+            $produto = $this->consultarProduto($idproduto);
+
+            if ($produto[0]->quantidade == 0){
+                return ['sucesso' => false, 'nome' => $produto[0]->nome];
+                break;
+            }
+        }
+
+        return $retorno;
+    }
+
+    public function decrementarEstoqueDosProdutos(array $produtos)
+    {
+        foreach ($produtos as $idProduto) {
+            $produto = $this->consultarProduto($idProduto);
+            $this->atualizarProduto(['quantidade' => ($produto[0]->quantidade - 1)], $idProduto);
+        }
+
+        return true;
+    }
 }
