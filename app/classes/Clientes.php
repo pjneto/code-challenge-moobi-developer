@@ -20,7 +20,7 @@ class Clientes
         return $this->objConexao->select($this->tabela);
     }
 
-    public function retornarClientePorId($idCliente)
+    public function consultarCliente($idCliente)
     {
         return $this->objConexao->selectById($this->tabela, $idCliente, $this->chave);
     }
@@ -60,6 +60,11 @@ class Clientes
     {
         $dados['ativo'] = 'N';
         return $this->objConexao->update($this->tabela, $dados, $idCliente, $this->chave);
+    }
+
+    public function apagarCliente($idCliente)
+    {
+        return $this->objConexao->delete($this->tabela, $idCliente, $this->chave);
     }
 
 }
