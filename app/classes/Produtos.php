@@ -67,7 +67,7 @@ class Produtos
     {
         $retorno = ['sucesso' => true];
         
-        foreach ($produtos as $indice => $idproduto) {
+        foreach ($produtos as $idproduto) {
             $produto = $this->consultarProduto($idproduto);
 
             if ($produto[0]->quantidade == 0){
