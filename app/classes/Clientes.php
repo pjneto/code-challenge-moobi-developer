@@ -29,19 +29,19 @@ class Clientes
     {
         try {
             if (empty($dados['documento'])) {
-                throw new \Exception("Documento não informado!");
+                throw new \Exception("Erro: Documento não informado!");
             }
 
             if (empty($dados['telefone'])) {
-                throw new \Exception("Telefone não informado!");
+                throw new \Exception("Erro: Telefone não informado!");
             }
 
             if (empty($dados['celular'])) {
-                throw new \Exception("Celular não informado!");
+                throw new \Exception("Erro: Celular não informado!");
             }
 
             if (empty($dados['email'])) {
-                throw new \Exception("E-mail não informado!");
+                throw new \Exception("Erro: E-mail não informado!");
             }
 
             return $this->objConexao->insert($this->tabela, $dados);

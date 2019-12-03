@@ -29,15 +29,15 @@ class Produtos
     {
         try {
             if (empty($dados['nome'])) {
-                throw new \Exception("Nome do produto não informado!");
+                throw new \Exception("Erro: Nome do produto não informado!");
             }
 
             if (empty($dados['preco'])) {
-                throw new \Exception("Preço do produto não informado!");
+                throw new \Exception("Erro: Preço do produto não informado!");
             }
 
             if (empty($dados['quantidade'])) {
-                throw new \Exception("Quantidade do produto em estoque não informado!");
+                throw new \Exception("Erro: Quantidade do produto em estoque não informado!");
             }
 
             return $this->objConexao->insert($this->tabela, $dados);
