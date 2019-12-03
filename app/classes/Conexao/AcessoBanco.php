@@ -150,7 +150,7 @@ class AcessoBanco
     public function delete($table, $id, $key)
     {
         try{
-            $query = "DELETE FROM {$table} WHERE id = :id";
+            $query = "DELETE FROM {$table} WHERE {$key} = :id";
             $cn = $this->prepare();
             $stmt = $cn->prepare($query);
             $stmt->bindValue(":id", $id); 
