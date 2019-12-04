@@ -72,8 +72,8 @@ CREATE TABLE `pedidos`  (
 DROP TABLE IF EXISTS `pedidos_produtos`;
 CREATE TABLE `pedidos_produtos`  (
   `idPedidoProduto` int(10) NOT NULL AUTO_INCREMENT,
-  `idProduto` int(10) NULL DEFAULT NULL,
-  `idPedido` int(10) NULL DEFAULT NULL,
+  `idProduto` int(10) NOT NULL,
+  `idPedido` int(10) NOT NULL,
   `dataCad` datetime(0) NULL DEFAULT NULL,
   `ativo` enum('S','N') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'S',
   `quantidade` int(10) NOT NULL DEFAULT NULL,
