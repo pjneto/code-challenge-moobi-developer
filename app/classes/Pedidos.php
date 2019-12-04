@@ -35,15 +35,23 @@ class Pedidos
 
             if ($this->verificarRegras($dados)) {
 
-                unset($dados['produtos']);
-                $desconto = $this->retornarValorDesconto($dados['formaPagamento']);
-                $valorTotalVenda = $this->calcularValorVendaPorProdutos($produtos, $desconto);
+                $dadosDoPedido = $this->montarDados($dados);
                 $objProduto->decrementarEstoqueDosProdutos($produtos);
-                $salvarPedido = $this->objConexao->insert($this->tabela, $dados);
+                $salvarPedido = $this->objConexao->insert($this->tabela, $dadosDoPedido);
                 $idPedidoSalvo = $this->objConexao->lastInsertId($this->tabela, $this->chave)[0]->idPedido;
+                $salvarPedidoProduto = $objPedidoProduto->cadastrarPedidosProdutos($produtos, $idPedidoSalvo);
 
-                return $objPedidoProduto->cadastrarPedidosProdutos($produtos, $idPedidoSalvo);
+                if ($salvarPedidoProduto) {
+
+                    $objCliente = new Clientes();
+                    $dadosCliente = $objCliente->consultarCliente($dados['idCliente']);
+
+                    $this->enviarEmailCliente($dadosCliente);
+                    $this->enviarSmsCliente($dadosCliente);
+                }
             }
+
+            return true;
 
         } catch(\Exception $erro) {
             echo $erro->getMessage();
@@ -51,7 +59,7 @@ class Pedidos
         }
     }
 
-    public function verificarRegras($dados)
+    public function verificarRegras(array $dados)
     {
         if (empty($dados['dataPedido'])) {
             throw new \Exception("Erro: Data do pedido não informado!");
@@ -81,11 +89,25 @@ class Pedidos
             throw new \Exception("Erro: Só é possível parcelar compras no cartão de crédito!");
         }
 
-        if ($dados['formaPagamento'] == 'CD' && !empty($dados['numParcelas'])) {
+        if ($dados['formaPagamento'] == 'CD' && empty($dados['numParcelas'])) {
             throw new \Exception("Erro: Informe a quantidade de parcelas para compras no cartão de crédito!");
         }
 
         return true;
+    }
+
+    public function montarDados(array $dados)
+    {
+        $desconto = $this->retornarValorDesconto($dados['formaPagamento']);
+
+        $dados['dataCad'] = date('Y-m-d H:i:s');
+        $dados['ativo'] = 'S';
+        $dados['valorTotalVenda'] = $this->calcularValorVendaPorProdutos($dados['produtos'], $desconto);
+        $dados['valorParcela'] = ( $dados['formaPagamento'] == 'CD' ? $dados['valorTotalVenda'] / $dados['numParcelas'] : null ); 
+
+        unset($dados['produtos']);
+
+        return $dados;
     }
 
     public function retornarValorDesconto($formaPagamento)
@@ -124,6 +146,59 @@ class Pedidos
         }
 
         return $valorVenda;
+    }
+
+    public function enviarEmailCliente(array $dadosCliente)
+    {
+        $headers = "MIME-Version: 1.1\r\n";
+        $headers .= "Content-type: text/plain; charset=UTF-8\r\n";
+        $headers .= "From: lojabrinquedos@moobitech.com\r\n";
+        $headers .= "Return-Path: lojabrinquedos@moobitech.com\r\n"; 
+        
+        $destino = $dadosCliente[0]->email;
+        $assunto  = "Novo Pedido";
+        $corpo = "Novo pedido realizado na Loja de Brinquedos da MoobiTech!";
+
+        $emailEnvio = $this->simulacaoEnvioEmail($destino, $assunto, $corpo, $headers);
+
+        if ($emailEnvio) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function simulacaoEnvioEmail($destino, $assunto, $corpo, $headers) 
+    {
+        return true;
+    }
+
+    public function enviarSmsCliente(array $dadosCliente)
+    {
+        $corpoSms = 'Novo pedido realizado na Loja de Brinquedos da MoobiTech!';
+        $nomePara = $dadosCliente[0]->nome;
+
+        $dadosGateway = [
+            'loginApiSMS' => 'loginTeste',
+            'tokenApiSMS' => 'tokenTeste',
+            'celular' => $dadosCliente[0]->celular,
+            'nome' => $nomePara,
+            'mensagem' => $corpoSms
+        ];
+
+        $smsEnvio = $this->simulacaoEnvioSmsApi($dadosGateway);
+
+        if ($smsEnvio) {
+            return true;
+        }
+
+        return false;
+    }
+
+    
+    public function simulacaoEnvioSmsApi($dadosGateway)
+    {
+        return true;
     }
 
     public function atualizarPedido(array $novosDados, $idProduto)
