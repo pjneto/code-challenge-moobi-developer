@@ -52,7 +52,7 @@ CREATE TABLE `clientes`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `pedidos`;
 CREATE TABLE `pedidos`  (
-  `idPedido` int(10) NOT NULL,
+  `idPedido` int(10) NOT NULL AUTO_INCREMENT,
   `dataCad` datetime(0) NOT NULL,
   `ativo` enum('S','N') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'S',
   `dataPedido` date NOT NULL,
