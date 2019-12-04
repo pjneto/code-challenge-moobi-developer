@@ -47,6 +47,13 @@ class AcessoBanco
         return $this->prepare($query, true);
     }
 
+    public function selectById($table, $id, $key)
+    {
+        $query = "SELECT * FROM {$table} WHERE {$key} = {$id}";
+
+        return $this->prepare($query, true);
+    }
+
     private function prepare($query = null, $select = false)
     {
         try {
@@ -111,9 +118,9 @@ class AcessoBanco
         }
     }
 
-    public function selectById($table, $id, $key)
+    public function lastInsertId($table, $chave)
     {
-        $query = "SELECT * FROM {$table} WHERE {$key} = {$id}";
+        $query = "SELECT MAX({$chave}) AS {$chave} FROM {$table}";
 
         return $this->prepare($query, true);
     }
