@@ -54,43 +54,40 @@ class Pedidos
             return true;
 
         } catch(\Exception $erro) {
-            echo $erro->getMessage();
-            exit;
+            return $erro->getMessage();
         }
     }
 
     public function verificarRegras(array $dados)
     {
         if (empty($dados['dataPedido'])) {
-            throw new \Exception("Erro: Data do pedido não informado!");
+            throw new \Exception(DATA_PEDIDO_NAO_INFORMADO);
         }
 
         if (empty($dados['formaPagamento'])) {
-            throw new \Exception("Erro: Forma de pagamento do pedido não informado!");
+            throw new \Exception(FORMA_PAGAMENTO_NAO_INFORMADO);
         }
 
         if (empty($dados['produtos'])) {
-            throw new \Exception("Erro: Não é possível registrar o pedido sem informar ao menos um produto!");
+            throw new \Exception(PRODUTO_NAO_INFORMADO);
         }
 
         if (empty($dados['idCliente'])) {
-            throw new \Exception("Erro: Cliente para o pedido não informado!");
+            throw new \Exception(CLIENTE_NAO_INFORMADO);
         }
 
         $objProduto = new Produtos();
         $existenciaEstoque = $objProduto->verificarQtdProduto($dados['produtos']);
         if (!$existenciaEstoque['sucesso']) {
-            throw new \Exception(
-                "Erro: Não é possível registrar o pedido, pois não possui o produto " . $existenciaEstoque['nome'] . " no estoque!"
-            );
+            throw new \Exception(SEM_PEDIDO_ESTOQUE . $existenciaEstoque['nome']);
         }
 
         if ($dados['formaPagamento'] == BOLETO && (!empty($dados['numParcelas']) || !empty($dados['valorParcela']))) {
-            throw new \Exception("Erro: Só é possível parcelar compras no cartão de crédito!");
+            throw new \Exception(PARCELAS_SOMENTE_CARTAO_CREDITO);
         }
 
         if ($dados['formaPagamento'] == CARTAO_CREDITO && empty($dados['numParcelas'])) {
-            throw new \Exception("Erro: Informe a quantidade de parcelas para compras no cartão de crédito!");
+            throw new \Exception(QTDE_PARCELAS_NAO_INFORMADO);
         }
 
         return true;

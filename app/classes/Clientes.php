@@ -29,25 +29,24 @@ class Clientes
     {
         try {
             if (empty($dados['documento'])) {
-                throw new \Exception("Erro: Documento não informado!");
+                throw new \Exception(DOCUMENTO_NAO_INFORMADO);
             }
 
             if (empty($dados['telefone'])) {
-                throw new \Exception("Erro: Telefone não informado!");
+                throw new \Exception(TELEFONE_NAO_INFORMADO);
             }
 
             if (empty($dados['celular'])) {
-                throw new \Exception("Erro: Celular não informado!");
+                throw new \Exception(CELULAR_NAO_INFORMADO);
             }
 
             if (empty($dados['email'])) {
-                throw new \Exception("Erro: E-mail não informado!");
+                throw new \Exception(EMAIL_NAO_INFORMADO);
             }
 
             return $this->objConexao->insert($this->tabela, $dados);
         } catch(\Exception $erro) {
-            echo $erro->getMessage();
-            exit;
+            return $erro->getMessage();
         }
     }
 
