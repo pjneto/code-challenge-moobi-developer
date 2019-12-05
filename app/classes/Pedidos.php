@@ -85,11 +85,11 @@ class Pedidos
             );
         }
 
-        if ($dados['formaPagamento'] == 'BO' && (!empty($dados['numParcelas']) || !empty($dados['valorParcela']))) {
+        if ($dados['formaPagamento'] == BOLETO && (!empty($dados['numParcelas']) || !empty($dados['valorParcela']))) {
             throw new \Exception("Erro: Só é possível parcelar compras no cartão de crédito!");
         }
 
-        if ($dados['formaPagamento'] == 'CD' && empty($dados['numParcelas'])) {
+        if ($dados['formaPagamento'] == CARTAO_CREDITO && empty($dados['numParcelas'])) {
             throw new \Exception("Erro: Informe a quantidade de parcelas para compras no cartão de crédito!");
         }
 
@@ -103,7 +103,7 @@ class Pedidos
         $dados['dataCad'] = date('Y-m-d H:i:s');
         $dados['ativo'] = 'S';
         $dados['valorTotalVenda'] = $this->calcularValorVendaPorProdutos($dados['produtos'], $desconto);
-        $dados['valorParcela'] = ( $dados['formaPagamento'] == 'CD' ? $dados['valorTotalVenda'] / $dados['numParcelas'] : null ); 
+        $dados['valorParcela'] = ( $dados['formaPagamento'] == CARTAO_CREDITO ? $dados['valorTotalVenda'] / $dados['numParcelas'] : null ); 
 
         unset($dados['produtos']);
 
@@ -113,16 +113,13 @@ class Pedidos
     public function retornarValorDesconto($formaPagamento)
     {
         switch ($formaPagamento) {
-            // Boleto
-            case 'BO':
+            case BOLETO:
                 $desconto = 0.05;
                 break;
-            // Cartão de Crédito
-            case 'CD':
+            case CARTAO_CREDITO:
                 $desconto = 0;
                 break;
-            // Débito
-            case 'DE':
+            case DEBITO:
                 $desconto = 0.10;
                 break;
         }
