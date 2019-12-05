@@ -42,8 +42,7 @@ class Produtos
 
             return $this->objConexao->insert($this->tabela, $dados);
         } catch(\Exception $erro) {
-            echo $erro->getMessage();
-            exit;
+            return $erro->getMessage();
         }
     }
 

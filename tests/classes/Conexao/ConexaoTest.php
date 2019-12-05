@@ -1,5 +1,6 @@
 <?php
 require 'vendor/autoload.php';
+require 'config/config.php';
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
@@ -46,10 +47,11 @@ class ConexaoTest extends TestCase
         $query = $conn->query('SELECT * FROM produtos');
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
          
-        $this->assertCount(3, $results);
+        $this->assertCount(4, $results);
         $this->assertEquals("Carrinho", $results[0]['nome']);
         $this->assertEquals("Boneca", $results[1]['nome']);
         $this->assertEquals("Boneco", $results[2]['nome']);
+        $this->assertEquals("Robô", $results[3]['nome']);
     }
 
     public function testePedidos()

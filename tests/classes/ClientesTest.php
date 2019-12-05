@@ -1,6 +1,5 @@
 <?php
 require 'vendor/autoload.php';
-require 'config/config.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -28,22 +27,26 @@ class ClientesTest extends TestCase
 
 	public function testeCadastrarClienteSucesso()
 	{
-		$dadosCliente = [
+		$novoCliente = [
 			'dataCad' 	=> date('Y-m-d H:i:s'),
 			'ativo' 	=> 'S',
-			'nome' 		=> 'Maria',
+			'nome' 		=> 'Maria das Graças',
 			'sexo' 		=> 'F',
 			'dataNasc' 	=> '1995-10-15',
 			'tipoDoc' 	=> 'CPF',
 			'documento' => '01234567899',
-			'telefone' 	=> '79999874563',
-			'celular' 	=> '79454547785',
+			'telefone' 	=> '7999987456',
+			'celular' 	=> '7945454778',
 			'email' 	=> 'maria@email.com'
 		];
 
 		$objCliente = $this->getObjetoCliente();
-		$resultadoCadastro = $objCliente->cadastrarCliente($dadosCliente);
+		$resultadoCadastro = $objCliente->cadastrarCliente($novoCliente);
 		$this->assertEquals(true, $resultadoCadastro);
+
+		$clientes = $objCliente->retornarClientes();
+		$resultado = $clientes[count($clientes) - 1]->nome;
+		$this->assertEquals('Maria das Graças', $resultado);
 	}
 
 	public function testeCadastrarClienteErro()

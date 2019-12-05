@@ -130,6 +130,18 @@
             <value>Nenhuma</value>
             <value>10</value>
         </row>
+        <row>
+            <value>63</value>
+            <value>2019-02-02 01:01:01</value>
+            <value>Robô</value>
+            <value>S</value>
+            <value></value>
+            <value>AD</value>
+            <value>Beta</value>
+            <value>100.99</value>
+            <value>Nenhuma</value>
+            <value>5</value>
+        </row>
     </table>
     <table name="pedidos">
         <column>idPedido</column>
