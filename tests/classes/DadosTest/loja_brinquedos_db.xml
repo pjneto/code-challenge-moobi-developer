@@ -114,6 +114,7 @@
         <column>idPedido</column>
         <column>dataCad</column>
         <column>ativo</column>
+        <column>dataPedido</column>
         <column>formaPagamento</column>
         <column>numParcelas</column>
         <column>idCliente</column>
@@ -123,6 +124,7 @@
             <value>1000</value>
             <value>2019-02-02 01:01:01</value>
             <value>S</value>
+            <value>2019-12-04</value>
             <value>DE</value>
             <value></value>
             <value>101</value>
@@ -133,6 +135,7 @@
             <value>1001</value>
             <value>2019-02-02 01:01:01</value>
             <value>S</value>
+            <value>2019-12-04</value>
             <value>CD</value>
             <value>10</value>
             <value>101</value>
