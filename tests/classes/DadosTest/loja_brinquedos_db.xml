@@ -61,6 +61,27 @@
             <value>7945789631</value>
             <value>teste@email2.com</value>
         </row>
+        <row>
+            <value>102</value>
+            <value>2019-02-02 01:01:01</value>
+            <value>S</value>
+            <value>Joana</value>
+            <value>F</value>
+            <value>1995-11-12</value>
+            <value>CPF</value>
+            <value>00012345679</value>
+            <value>Rua C</value>
+            <value>4910000</value>
+            <value>Rua</value>
+            <value>Loiola</value>
+            <value>10</value>
+            <value>Casa</value>
+            <value>Sergipe</value>
+            <value>Aracaju</value>
+            <value>7979797979</value>
+            <value>7878787878</value>
+            <value>teste@email3.com</value>
+        </row>
     </table>
     <table name="produtos">
         <column>idProduto</column>

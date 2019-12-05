@@ -26,20 +26,54 @@ class ConexaoTest extends TestCase
         return $this->createXMLDataSet("./tests/classes/DadosTest/loja_brinquedos_db.xml");
 	}
 
-	public function testLendo()
+	public function testeClientes()
     { 
         $conn = $this->getConnection()->getConnection();
    
         $query = $conn->query('SELECT * FROM clientes');
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
          
-        $this->assertCount(2, $results);
-        $this->assertEquals('Antonio', $results[0]['nome']);
-        $this->assertEquals('Ana', $results[0]['nome']);
- 
-        // // lendo tracks
-        // $query = $conn->query('SELECT count(*) as total_tracks FROM tracks');
-        // $results = $query->fetchAll(PDO::FETCH_ASSOC);
-        // $this->assertEquals(3, $results[0]['total_tracks']);
+        $this->assertCount(3, $results);
+        $this->assertEquals("Antonio", $results[0]['nome']);
+        $this->assertEquals("Ana", $results[1]['nome']);
+        $this->assertEquals("Joana", $results[2]['nome']);
     }
+
+    public function testeProdutos()
+    { 
+        $conn = $this->getConnection()->getConnection();
+   
+        $query = $conn->query('SELECT * FROM produtos');
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+         
+        $this->assertCount(3, $results);
+        $this->assertEquals("Carrinho", $results[0]['nome']);
+        $this->assertEquals("Boneca", $results[1]['nome']);
+        $this->assertEquals("Boneco", $results[2]['nome']);
+    }
+
+    public function testePedidos()
+    { 
+        $conn = $this->getConnection()->getConnection();
+   
+        $query = $conn->query('SELECT * FROM pedidos');
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+         
+        $this->assertCount(2, $results);
+        $this->assertEquals(DEBITO, $results[0]['formaPagamento']);
+        $this->assertEquals(CARTAO_CREDITO, $results[1]['formaPagamento']);
+    }
+
+    public function testePedidosProdutos()
+    { 
+        $conn = $this->getConnection()->getConnection();
+   
+        $query = $conn->query('SELECT * FROM pedidos_produtos WHERE idpedido = "1000"');
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+         
+        $this->assertCount(2, $results);
+        $this->assertEquals(61, $results[0]['idProduto']);
+        $this->assertEquals(62, $results[1]['idProduto']);
+    }
+
 }
