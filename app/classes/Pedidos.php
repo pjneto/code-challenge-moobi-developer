@@ -82,7 +82,10 @@ class Pedidos
             throw new \Exception(SEM_PEDIDO_ESTOQUE . $existenciaEstoque['nome']);
         }
 
-        if ($dados['formaPagamento'] == BOLETO && (!empty($dados['numParcelas']) || !empty($dados['valorParcela']))) {
+        if (
+            ($dados['formaPagamento'] == BOLETO || $dados['formaPagamento'] == DEBITO) &&
+            (!empty($dados['numParcelas']) || !empty($dados['valorParcela']))
+        ) {
             throw new \Exception(PARCELAS_SOMENTE_CARTAO_CREDITO);
         }
 
