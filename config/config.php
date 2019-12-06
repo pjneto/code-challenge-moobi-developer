@@ -28,7 +28,7 @@ define('DATA_PEDIDO_NAO_INFORMADO', 'Erro: Data do pedido não informado!');
 define('FORMA_PAGAMENTO_NAO_INFORMADO', 'Erro: Forma de pagamento do pedido não informado!');
 define('PRODUTO_NAO_INFORMADO', 'Erro: Não é possível registrar o pedido sem informar ao menos um produto!');
 define('CLIENTE_NAO_INFORMADO', 'Erro: Cliente para o pedido não informado!');
-define('SEM_PEDIDO_ESTOQUE', 'Erro: Não é possível registrar o pedido, pois não possui o produto no estoque: ');
+define('SEM_PEDIDO_ESTOQUE', 'Erro: Não é possível registrar o pedido, pois não possui o produto no estoque');
 define('PARCELAS_SOMENTE_CARTAO_CREDITO', 'Erro: Só é possível parcelar compras no cartão de crédito!');
 define('QTDE_PARCELAS_NAO_INFORMADO', 'Erro: Informe a quantidade de parcelas para compras no cartão de crédito!');
 

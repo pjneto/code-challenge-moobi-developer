@@ -79,7 +79,7 @@ class Pedidos
         $objProduto = new Produtos();
         $existenciaEstoque = $objProduto->verificarQtdProduto($dados['produtos']);
         if (!$existenciaEstoque['sucesso']) {
-            throw new \Exception(SEM_PEDIDO_ESTOQUE . $existenciaEstoque['nome']);
+            throw new \Exception(SEM_PEDIDO_ESTOQUE);
         }
 
         if (
