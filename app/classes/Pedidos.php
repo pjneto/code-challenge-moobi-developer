@@ -198,25 +198,25 @@ class Pedidos
         return true;
     }
 
-    public function atualizarPedido(array $novosDados, $idProduto)
+    public function atualizarPedido(array $novosDados, $idPedido)
     {
-        return $this->objConexao->update($this->tabela, $novosDados, $idProduto, $this->chave);
+        return $this->objConexao->update($this->tabela, $novosDados, $idPedido, $this->chave);
     }
 
     public function inativarPedido($idPedido)
     {
         $dados['ativo'] = 'N';
-        return $this->objConexao->update($this->tabela, $dados, $idProduto, $this->chave);
+        return $this->objConexao->update($this->tabela, $dados, $idPedido, $this->chave);
     }
 
     public function ativarPedido($idPedido)
     {
         $dados['ativo'] = 'S';
-        return $this->objConexao->update($this->tabela, $dados, $idProduto, $this->chave);
+        return $this->objConexao->update($this->tabela, $dados, $idPedido, $this->chave);
     }
 
     public function apagarPedido($idPedido)
     {
-    	return $this->objConexao->delete($this->tabela, $idProduto, $this->chave);
+    	return $this->objConexao->delete($this->tabela, $idPedido, $this->chave);
     }
 }
