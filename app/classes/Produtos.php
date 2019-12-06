@@ -57,6 +57,12 @@ class Produtos
         return $this->objConexao->update($this->tabela, $dados, $idProduto, $this->chave);
     }
 
+    public function ativarProduto($idProduto)
+    {
+        $dados['ativo'] = 'S';
+        return $this->objConexao->update($this->tabela, $dados, $idProduto, $this->chave);
+    }
+
     public function apagarProduto($idProduto)
     {
     	return $this->objConexao->delete($this->tabela, $idProduto, $this->chave);

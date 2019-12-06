@@ -61,6 +61,12 @@ class Clientes
         return $this->objConexao->update($this->tabela, $dados, $idCliente, $this->chave);
     }
 
+    public function ativarCliente($idCliente)
+    {
+        $dados['ativo'] = 'S';
+        return $this->objConexao->update($this->tabela, $dados, $idCliente, $this->chave);
+    }
+
     public function apagarCliente($idCliente)
     {
         return $this->objConexao->delete($this->tabela, $idCliente, $this->chave);

@@ -209,6 +209,12 @@ class Pedidos
         return $this->objConexao->update($this->tabela, $dados, $idProduto, $this->chave);
     }
 
+    public function ativarPedido($idPedido)
+    {
+        $dados['ativo'] = 'S';
+        return $this->objConexao->update($this->tabela, $dados, $idProduto, $this->chave);
+    }
+
     public function apagarPedido($idPedido)
     {
     	return $this->objConexao->delete($this->tabela, $idProduto, $this->chave);
