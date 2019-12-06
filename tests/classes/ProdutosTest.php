@@ -15,7 +15,7 @@ class ProdutosTest extends TestCase
 	{
 		$objProduto = $this->getObjetoProduto();
 		$qtdeProdutos = count($objProduto->retornarProdutos());
-		$this->assertEquals(4, $qtdeProdutos);
+		$this->assertEquals(5, $qtdeProdutos);
 	}
 
 	public function testeConsultarProduto()
@@ -90,13 +90,13 @@ class ProdutosTest extends TestCase
 	public function testeDecrementarEstoqueDosProdutos()
 	{
 		$objProduto = $this->getObjetoProduto();
-		$produto = $objProduto->consultarProduto(64);
+		$produto = $objProduto->consultarProduto(65);
 		$qtdeAntigaProduto = $produto[0]->quantidade;
 
-		$resultadoDecremento = $objProduto->decrementarEstoqueDosProdutos([64]);
+		$resultadoDecremento = $objProduto->decrementarEstoqueDosProdutos([65]);
 		$this->assertEquals(true, $resultadoDecremento);
 
-		$produtoAtualizado = $objProduto->consultarProduto(64);
+		$produtoAtualizado = $objProduto->consultarProduto(65);
 		$qtdeNovaProduto = $produtoAtualizado[0]->quantidade;
 
 		$this->assertEquals($qtdeAntigaProduto - 1, $qtdeNovaProduto);

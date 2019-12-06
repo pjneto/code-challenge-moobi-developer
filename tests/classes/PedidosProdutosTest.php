@@ -27,7 +27,7 @@ class PedidosProdutosTest extends TestCase
 
 	public function testeCadastrarPedidosProdutos()
 	{
-		$produtos = [60, 61, 62, 63, 64];
+		$produtos = [60, 61, 62, 63];
 		$pedido = 1001;
 
 		$objPedidoProduto = $this->getObjetoPedidosProdutos();
@@ -36,7 +36,7 @@ class PedidosProdutosTest extends TestCase
 
 		$objPedidoProduto = $this->getObjetoPedidosProdutos();
 		$produtosDeUmPedido = $objPedidoProduto->consultarProdutosDeUmPedido(1001);
-		$this->assertEquals(5, count($produtosDeUmPedido));
+		$this->assertEquals(4, count($produtosDeUmPedido));
 	}
 
 	public function testeAtualizarPedidoProduto()

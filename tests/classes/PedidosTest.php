@@ -84,8 +84,7 @@ class PedidosTest extends TestCase
 
 		$objPedido = $this->getObjetoPedido();
 		$resultado2 = $objPedido->cadastrarPedido($novoPedido2);
-		// $this->assertEquals(SEM_PEDIDO_ESTOQUE, $resultado2);
-		// $this->assertSame(SEM_PEDIDO_ESTOQUE, $resultado2);
+		$this->assertEquals(SEM_PEDIDO_ESTOQUE, $resultado2);
 	}
 
 	public function testeRetornarValoresDesconto()

@@ -47,7 +47,7 @@ class ConexaoTest extends TestCase
         $query = $conn->query('SELECT * FROM produtos');
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
          
-        $this->assertCount(4, $results);
+        $this->assertCount(5, $results);
         $this->assertEquals("Carrinho", $results[0]['nome']);
         $this->assertEquals("Boneca", $results[1]['nome']);
         $this->assertEquals("Boneco", $results[2]['nome']);
