@@ -87,7 +87,6 @@ class ProdutosTest extends TestCase
 		$this->assertEquals(true, $resultUpdate);
 	}
 
-
 	public function testeDecrementarEstoqueDosProdutos()
 	{
 		$objProduto = $this->getObjetoProduto();
