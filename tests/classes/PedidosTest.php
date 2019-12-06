@@ -29,5 +29,24 @@ class PedidosTest extends TestCase
 		$this->assertEquals(CARTAO_CREDITO, $pedido[0]->formaPagamento);
 	}
 
-	
+	public function testeCadastrarPedidoSucesso()
+	{
+		$novoPedido = [
+			'dataCad' 			=> date('Y-m-d H:i:s'),
+			'ativo' 			=> 'S',
+			'dataPedido' 		=> date('Y-m-d H:i:s'),
+			'formaPagamento' 	=> CARTAO_CREDITO,
+			'numParcelas' 		=> '5',
+			'idCliente' 		=> '100',
+			'produtos'			=> [60, 61, 62]
+		];
+
+		$objPedido = $this->getObjetoPedido();
+		$resultadoCadastro = $objPedido->cadastrarPedido($novoPedido);
+		$this->assertEquals(true, $resultadoCadastro);
+
+		$qtdePedidos = count($objPedido->retornarPedidos());
+		$this->assertEquals(3, $qtdePedidos);
+	}
+
 }
