@@ -64,7 +64,7 @@ CREATE TABLE `pedidos`  (
   PRIMARY KEY (`idPedido`) USING BTREE,
   INDEX `fk_pedido_cliente`(`idCliente`) USING BTREE,
   CONSTRAINT `fk_pedido_cliente` FOREIGN KEY (`idCliente`) REFERENCES `clientes` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for pedidos_produtos
@@ -76,7 +76,6 @@ CREATE TABLE `pedidos_produtos`  (
   `idPedido` int(10) NOT NULL,
   `dataCad` datetime(0) NULL DEFAULT NULL,
   `ativo` enum('S','N') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'S',
-  `quantidade` int(10) NOT NULL DEFAULT NULL,
   PRIMARY KEY (`idPedidoProduto`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
