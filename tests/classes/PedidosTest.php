@@ -49,4 +49,37 @@ class PedidosTest extends TestCase
 		$this->assertEquals(3, $qtdePedidos);
 	}
 
+	public function testeCadastrarPedidoErro()
+	{
+
+		$novoPedido1 = [
+			'dataCad' 			=> date('Y-m-d H:i:s'),
+			'ativo' 			=> 'S',
+			'dataPedido' 		=> date('Y-m-d H:i:s'),
+			'formaPagamento' 	=> DEBITO,
+			'numParcelas' 		=> '5',
+			'idCliente' 		=> '100',
+			'produtos'			=> [60, 61]
+		];
+
+		$objPedido = $this->getObjetoPedido();
+		$resultado1 = $objPedido->cadastrarPedido($novoPedido1);
+		$this->assertEquals(PARCELAS_SOMENTE_CARTAO_CREDITO, $resultado1);
+
+
+		$novoPedido2 = [
+			'dataCad' 			=> date('Y-m-d H:i:s'),
+			'ativo' 			=> 'S',
+			'dataPedido' 		=> date('Y-m-d H:i:s'),
+			'formaPagamento' 	=> CARTAO_CREDITO,
+			'numParcelas' 		=> '10',
+			'idCliente' 		=> '101',
+			'produtos'			=> [64]
+		];
+
+		$objPedido = $this->getObjetoPedido();
+		$resultado2 = $objPedido->cadastrarPedido($novoPedido2);
+		$this->assertEquals(SEM_PEDIDO_ESTOQUE, $resultado2);
+
+	}
 }

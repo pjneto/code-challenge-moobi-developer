@@ -34,7 +34,7 @@ class ProdutosTest extends TestCase
 			'modelo' 		=> 'Tradicional',
 			'marca' 		=> 'Estrela',
 			'preco' 		=> '500.99',
-			'quantidade' 	=> '50'
+			'quantidade' 	=> '1'
 		];
 
 		$objProduto = $this->getObjetoProduto();
@@ -80,17 +80,24 @@ class ProdutosTest extends TestCase
 		$this->assertEquals(true, $resultUpdate);
 	}
 
+	public function testeAtivarProduto()
+	{
+		$objProduto = $this->getObjetoProduto();
+		$resultUpdate = $objProduto->ativarProduto(64);
+		$this->assertEquals(true, $resultUpdate);
+	}
+
 
 	public function testeDecrementarEstoqueDosProdutos()
 	{
 		$objProduto = $this->getObjetoProduto();
-		$produto = $objProduto->consultarProduto(63);
+		$produto = $objProduto->consultarProduto(64);
 		$qtdeAntigaProduto = $produto[0]->quantidade;
 
-		$resultadoDecremento = $objProduto->decrementarEstoqueDosProdutos([63]);
+		$resultadoDecremento = $objProduto->decrementarEstoqueDosProdutos([64]);
 		$this->assertEquals(true, $resultadoDecremento);
 
-		$produtoAtualizado = $objProduto->consultarProduto(63);
+		$produtoAtualizado = $objProduto->consultarProduto(64);
 		$qtdeNovaProduto = $produtoAtualizado[0]->quantidade;
 
 		$this->assertEquals($qtdeAntigaProduto - 1, $qtdeNovaProduto);

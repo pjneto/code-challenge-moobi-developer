@@ -80,4 +80,11 @@ class ClientesTest extends TestCase
 		$this->assertEquals(true, $resultUpdate);
 	}
 
+	public function testeAtivarCliente()
+	{
+		$objCliente = $this->getObjetoCliente();
+		$resultUpdate = $objCliente->ativarCliente(102);
+		$this->assertEquals(true, $resultUpdate);
+	}
+
 }

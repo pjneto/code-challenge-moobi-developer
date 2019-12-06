@@ -33,22 +33,22 @@ class Pedidos
             $objPedidoProduto = new PedidosProdutos();
             $produtos = $dados['produtos'];
 
-            if ($this->verificarRegras($dados)) {
+            $this->verificarRegras($dados);
 
-                $dadosDoPedido = $this->montarDados($dados);
-                $objProduto->decrementarEstoqueDosProdutos($produtos);
-                $salvarPedido = $this->objConexao->insert($this->tabela, $dadosDoPedido);
-                $idPedidoSalvo = $this->objConexao->lastInsertId($this->tabela, $this->chave)[0]->idPedido;
-                $salvarPedidoProduto = $objPedidoProduto->cadastrarPedidosProdutos($produtos, $idPedidoSalvo);
+            $dadosDoPedido = $this->montarDados($dados);
+            $salvarPedido = $this->objConexao->insert($this->tabela, $dadosDoPedido);
+            $objProduto->decrementarEstoqueDosProdutos($produtos);
+            
+            $idPedidoSalvo = $this->objConexao->lastInsertId($this->tabela, $this->chave)[0]->idPedido;
+            $salvarPedidoProduto = $objPedidoProduto->cadastrarPedidosProdutos($produtos, $idPedidoSalvo);
 
-                if ($salvarPedidoProduto) {
+            if ($salvarPedidoProduto) {
 
-                    $objCliente = new Clientes();
-                    $dadosCliente = $objCliente->consultarCliente($dados['idCliente']);
+                $objCliente = new Clientes();
+                $dadosCliente = $objCliente->consultarCliente($dados['idCliente']);
 
-                    $this->enviarEmailCliente($dadosCliente);
-                    $this->enviarSmsCliente($dadosCliente);
-                }
+                $this->enviarEmailCliente($dadosCliente);
+                $this->enviarSmsCliente($dadosCliente);
             }
 
             return true;
