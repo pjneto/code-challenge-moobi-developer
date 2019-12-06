@@ -22,6 +22,11 @@ class PedidosProdutos
         return $this->objConexao->select($this->tabela);
     }
 
+    public function consultarPedidoProduto($idPedidoProduto)
+    {
+        return $this->objConexao->selectById($this->tabela, $idPedidoProduto, $this->chave);
+    }
+
     public function consultarProdutosDeUmPedido($idPedido)
     {
         return $this->objConexao->selectById($this->tabela, $idPedido, $this->chavePedido);
