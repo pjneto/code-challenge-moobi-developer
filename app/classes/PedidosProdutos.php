@@ -54,6 +54,11 @@ class PedidosProdutos
         return $dados;
     }
 
+    public function atualizarPedidoProduto(array $novosDados, $idPedidoProduto)
+    {
+        return $this->objConexao->update($this->tabela, $novosDados, $idPedidoProduto, $this->chave);
+    }
+
     public function inativarPedidoProduto($idPedidoProduto)
     {
         $dados['ativo'] = 'N';
