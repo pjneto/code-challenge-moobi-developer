@@ -32,7 +32,6 @@ class ClientesTest extends TestCase
 			'ativo' 	=> 'S',
 			'nome' 		=> 'Maria das Graças',
 			'sexo' 		=> 'F',
-			'dataNasc' 	=> '1995-10-15',
 			'tipoDoc' 	=> 'CPF',
 			'documento' => '01234567899',
 			'telefone' 	=> '7999987456',
@@ -51,7 +50,7 @@ class ClientesTest extends TestCase
 
 	public function testeCadastrarClienteErro()
 	{
-		$dadosCliente = [
+		$novoCliente = [
 			'dataCad' 	=> date('Y-m-d H:i:s'),
 			'ativo' 	=> 'S',
 			'nome' 		=> 'João',
@@ -62,7 +61,7 @@ class ClientesTest extends TestCase
 		];
 
 		$objCliente = $this->getObjetoCliente();
-		$resultadoCadastro = $objCliente->cadastrarCliente($dadosCliente);
+		$resultadoCadastro = $objCliente->cadastrarCliente($novoCliente);
 		$this->assertEquals(CELULAR_NAO_INFORMADO, $resultadoCadastro);
 	}
 

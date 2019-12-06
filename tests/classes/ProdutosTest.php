@@ -47,47 +47,53 @@ class ProdutosTest extends TestCase
 
 	}
 
-	// public function testeCadastrarProdutoErro()
-	// {
-	// 	// $dadosCliente = [
-	// 	// 	'dataCad' 	=> date('Y-m-d H:i:s'),
-	// 	// 	'ativo' 	=> 'S',
-	// 	// 	'nome' 		=> 'João',
-	// 	// 	'tipoDoc' 	=> 'CPF',
-	// 	// 	'documento' => '01234567890',
-	// 	// 	'telefone' 	=> '79999874563',
-	// 	// 	'email'		=> 'email@email.com'
-	// 	// ];
+	public function testeCadastrarProdutoErro()
+	{
+		$novoProduto = [
+			'dataCad' 		=> date('Y-m-d H:i:s'),
+			'ativo' 		=> 'S',
+			'nome' 			=> 'Ursinho',
+			'preco'			=> '59.99'
+		];
 
-	// 	// $objCliente = $this->getObjetoCliente();
-	// 	// $resultadoCadastro = $objCliente->cadastrarCliente($dadosCliente);
-	// 	// $this->assertEquals(CELULAR_NAO_INFORMADO, $resultadoCadastro);
-	// }
+		$objProduto = $this->getObjetoProduto();
+		$resultadoCadastro = $objProduto->cadastrarProduto($novoProduto);
+		$this->assertEquals(QTDE_PRODUTO_NAO_INFORMADO, $resultadoCadastro);
+	}
 
-	// public function testeAtualizarCliente()
-	// {
-	// 	// $objCliente = $this->getObjetoCliente();
-	// 	// $novosDados = ['email' => 'lojaonline@loja.com'];
-	// 	// $resultUpdate = $objCliente->atualizarCliente($novosDados, 102);
-	// 	// $this->assertEquals(true, $resultUpdate);
-	// }
+	public function testeAtualizarProduto()
+	{
+		$objProduto = $this->getObjetoProduto();
+		$novosDados = ['preco' => '99.99'];
+		$resultUpdate = $objProduto->atualizarProduto($novosDados, 60);
+		$this->assertEquals(true, $resultUpdate);
 
-	// public function testeInativarCliente()
-	// {
-	// 	// $objCliente = $this->getObjetoCliente();
-	// 	// $resultUpdate = $objCliente->inativarCliente(102);
-	// 	// $this->assertEquals(true, $resultUpdate);
-	// }
+		$produtos = $objProduto->consultarProduto(60);
+		$resultado = $produtos[0]->preco;
+		$this->assertEquals('99.99', $resultado);
+	}
 
-	// public function testeVerificarQtdProdutoCompra()
-	// {
-
-	// }
-
-	// public function testeDecrementarEstoqueDosProdutos()
-	// {
-
-	// }
+	public function testeInativarProduto()
+	{
+		$objProduto = $this->getObjetoProduto();
+		$resultUpdate = $objProduto->inativarProduto(64);
+		$this->assertEquals(true, $resultUpdate);
+	}
 
 
+	public function testeDecrementarEstoqueDosProdutos()
+	{
+		$objProduto = $this->getObjetoProduto();
+		$produto = $objProduto->consultarProduto(63);
+		$qtdeAntigaProduto = $produto[0]->quantidade;
+
+		$resultadoDecremento = $objProduto->decrementarEstoqueDosProdutos([63]);
+		$this->assertEquals(true, $resultadoDecremento);
+
+		$produtoAtualizado = $objProduto->consultarProduto(63);
+		$qtdeNovaProduto = $produtoAtualizado[0]->quantidade;
+
+		$this->assertEquals($qtdeAntigaProduto - 1, $qtdeNovaProduto);
+		$this->assertNotEquals($qtdeAntigaProduto, $qtdeNovaProduto);
+	}
 }
