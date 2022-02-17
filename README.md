@@ -1,4 +1,4 @@
-# Desafio Moobi Tech
+# Desafio Moobi Tech PHP
 
 A entrega deve ser realizada em até 10 dias, caso não seja realizada o candidato está automaticamente desclassificado.
 
@@ -9,11 +9,11 @@ A loja de brinquedos de sua cidade está expandindo suas vendas através da inte
 
 #### Produtos
 
-Serviço de cadastro de produtos que deve ser possível cadastrar, localizar, atualizar e inativá-lo. Os campos necessários para o cadastro de produtos fica a seu critério, podendo ou não justificar a escolha dos campos. Como a loja também será aberta para revendedores individuais, campos personalizados também podem ser adicionados no cadastro de produtos para qualquer revendedor, seu software deverá estar preparado para receber tais informações.
+Serviço de cadastro de produtos que deve ser possível cadastrar, localizar, atualizar e inativá-lo. Os campos necessários para o cadastro de produtos fica a seu critério, podendo ou não justificar a escolha dos campos. 
 
 #### Pedidos
 
-Serviço de cadastro de pedidos. As informações do pedido consistem em um identificador, data do pedido, forma de pagamento (débito, cartão de crédito, boleto bancário), valor total da venda, número de parcelas (quando o pagamento é via cartão de crédito) e lista de produtos do pedido. 
+Serviço de cadastro de pedidos. As informações do pedido consistem em um identificador (autogerado), data do pedido, forma de pagamento (débito, cartão de crédito, boleto bancário), valor total da venda, número de parcelas (quando o pagamento é via cartão de crédito) e lista de produtos do pedido. 
 
 Obs: A depender da forma de pagamento temos alguns diferenciais.
 
@@ -31,13 +31,12 @@ Obs: A depender da forma de pagamento temos alguns diferenciais.
 ### Observações
 
 - Não é necessário criar interface visual para o software;
-- É necessário escrever testes para o software;
 - Os dados devem ser armazenados em um database mysql (enviar código para criação do mesmo);
 
 ### Avaliação
 
 - Atender aos requisitos do projeto
-- Legibilidade, simplicidade e flexibilidade da solução
-- Cobertura de testes
+- Qualidade do código
+- Utilizar PHP
 
 Crie um fork desse repositório e nos envie um pull request.
